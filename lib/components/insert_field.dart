@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomInsertField extends StatelessWidget {
   final String label;
   final Widget? prefix;
   final Widget? suffix;
   final ValueChanged<String>? onChanged;
+  final MaskTextInputFormatter? maskFormatter;
 
   const CustomInsertField({
     Key? key,
@@ -12,6 +14,7 @@ class CustomInsertField extends StatelessWidget {
     this.prefix,
     this.suffix,
     this.onChanged,
+    this.maskFormatter,
   }) : super(key: key);
 
   @override
@@ -19,11 +22,16 @@ class CustomInsertField extends StatelessWidget {
     return TextFormField(
       onChanged: onChanged,
       keyboardType: TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: maskFormatter != null ? [maskFormatter!] : [],
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: prefix,
-        suffixIcon: suffix,
         border: OutlineInputBorder(),
+        prefixIcon: prefix != null
+            ? Container(alignment: Alignment.center, width: 48, child: prefix)
+            : null,
+        suffixIcon: suffix != null
+            ? Container(alignment: Alignment.center, width: 48, child: suffix)
+            : null,
       ),
     );
   }

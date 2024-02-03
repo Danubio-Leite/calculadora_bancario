@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../components/custom_calc_button.dart';
 import '../components/insert_field.dart';
 import '../components/result_card.dart';
@@ -16,6 +18,12 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
   int prazoMeses = 0;
   double pagamentoMensal = 0;
 
+  // Formatters
+  var valorEmprestimoFormatter = MaskTextInputFormatter(
+      mask: '###.###.###,##', filter: {"#": RegExp(r'[0-9]')});
+  var taxaJurosFormatter =
+      MaskTextInputFormatter(mask: '##,##', filter: {"#": RegExp(r'[0-9]')});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +38,23 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
             CustomInsertField(
               label: 'Valor do Empréstimo',
               prefix: const Text('R\$ '),
+              maskFormatter: valorEmprestimoFormatter,
               onChanged: (value) {
                 setState(() {
-                  valorEmprestimo = double.tryParse(value) ?? 0;
+                  valorEmprestimo = double.tryParse(
+                          value.replaceAll('.', '').replaceAll(',', '.')) ??
+                      0;
                 });
               },
             ),
             const SizedBox(height: 16),
             CustomInsertField(
+              maskFormatter: taxaJurosFormatter,
               label: 'Taxa de Juros (%)',
               suffix: const Text('%'),
               onChanged: (value) {
                 setState(() {
-                  taxaJuros = double.tryParse(value) ?? 0;
+                  taxaJuros = double.tryParse(value.replaceAll(',', '.')) ?? 0;
                 });
               },
             ),

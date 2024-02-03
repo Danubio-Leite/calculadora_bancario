@@ -22,7 +22,7 @@ class CustomHomeButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Material(
-        color: Colors.blueAccent[100],
+        color: const Color.fromARGB(255, 159, 185, 227),
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
           onTap: onPressed,

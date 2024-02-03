@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       margin: const EdgeInsets.only(
           bottom: 16.0), // adiciona margem na parte inferior
       child: Container(
-        color: Colors.blueAccent[100],
+        color: const Color.fromARGB(255, 159, 185, 227),
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Row(
