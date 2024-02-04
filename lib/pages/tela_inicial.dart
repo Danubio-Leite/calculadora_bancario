@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../components/custom_home_button.dart';
 import 'cdc.dart';
+import 'tela_aposentadoria.dart';
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
@@ -34,18 +35,54 @@ class TelaInicial extends StatelessWidget {
               },
             ),
             CustomHomeButton(
-              imagePath: 'assets/images/icons/budget.png',
-              buttonText: 'Poupança para Aposentadoria',
-              onPressed: () {},
+              imagePath: 'assets/images/icons/piggy-bank.png',
+              buttonText: 'Poupança para\n Aposentadoria',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TelaCalculadoraAposentadoria()),
+                );
+              },
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/profits.png',
-              buttonText: 'Comparador de Investimentos',
+              buttonText: 'Comparador de\n Investimentos',
               onPressed: () {},
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/stats.png',
-              buttonText: 'Valor Presente Líquido',
+              buttonText: 'Valor Presente\n Líquido',
+              onPressed: () {},
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/maths.png',
+              buttonText: 'Regra de\n três',
+              onPressed: () {},
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/accounting.png',
+              buttonText: 'Indicadores\n Financeiros',
+              onPressed: () {},
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/assets.png',
+              buttonText: 'Consórcio x\n Financiamento',
+              onPressed: () {},
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/sheets.png',
+              buttonText: 'Gerador de\n Tabelas',
+              onPressed: () {},
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/idea.png',
+              buttonText: 'Sugestão de\n Nova Função',
+              onPressed: () {},
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/information.png',
+              buttonText: 'Sobre o\n App',
               onPressed: () {},
             ),
           ]),
