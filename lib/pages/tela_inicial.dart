@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../components/custom_home_button.dart';
 import 'cdc.dart';
 import 'tela_aposentadoria.dart';
+import 'tela_indices_economicos.dart';
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
@@ -62,8 +63,14 @@ class TelaInicial extends StatelessWidget {
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/accounting.png',
-              buttonText: 'Indicadores\n Financeiros',
-              onPressed: () {},
+              buttonText: 'Indicadores\n Econômicos',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TelaIndicesEconomicos()),
+                );
+              },
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/assets.png',
