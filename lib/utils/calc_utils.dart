@@ -21,6 +21,34 @@ double calcularPagamentoMensal(double valorEmprestimo, double taxaJuros,
   return pagamentoMensal;
 }
 
+double calcularTaxaEquivalente(double taxa, int periodoOriginal,
+    String unidadeOriginal, int periodoCalculo, String unidadeCalculo) {
+  // Converter a taxa de porcentagem para uma fração
+  taxa /= 100;
+
+  // Converter o período original para dias
+  if (unidadeOriginal == 'Anos') {
+    periodoOriginal *= 360;
+  } else if (unidadeOriginal == 'Meses') {
+    periodoOriginal *= 30;
+  }
+
+  // Converter o período de cálculo para dias
+  if (unidadeCalculo == 'Anos') {
+    periodoCalculo *= 360;
+  } else if (unidadeCalculo == 'Meses') {
+    periodoCalculo *= 30;
+  }
+
+  // Calcular a taxa equivalente
+  double taxaEquivalente = pow(1 + taxa, periodoCalculo / periodoOriginal) - 1;
+
+  // Converter a taxa equivalente de volta para uma porcentagem
+  taxaEquivalente *= 100;
+
+  return taxaEquivalente;
+}
+
 class CalculadoraAposentadoria {
   static double calcularMontante(
       double aplicacaoInicial,

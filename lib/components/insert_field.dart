@@ -9,6 +9,9 @@ class CustomInsertField extends StatelessWidget {
   final MaskTextInputFormatter? maskFormatter;
   final TextEditingController? controller;
   final bool enabled;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
+  final TextInputType keyboardType;
 
   const CustomInsertField({
     Key? key,
@@ -19,18 +22,23 @@ class CustomInsertField extends StatelessWidget {
     this.maskFormatter,
     this.controller,
     this.enabled = true,
+    this.validator,
+    this.onSaved,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onSaved: onSaved,
+      validator: validator,
       controller: controller,
       onChanged: onChanged,
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      keyboardType: keyboardType,
       inputFormatters: maskFormatter != null ? [maskFormatter!] : [],
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         prefixIcon: prefix != null
             ? Container(alignment: Alignment.center, width: 48, child: prefix)
             : null,

@@ -2,9 +2,13 @@ import 'package:calculadora_bancario/components/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../components/custom_home_button.dart';
-import 'cdc.dart';
-import 'tela_aposentadoria.dart';
+import 'tela_cdc.dart';
+import 'tela_juros_compostos_invest.dart';
 import 'tela_indices_economicos.dart';
+import 'tela_regra_de_tres.dart';
+import 'tela_sobre_app.dart';
+import 'tela_sugestoes.dart';
+import 'tela_taxa_equivalente.dart';
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
@@ -37,7 +41,7 @@ class TelaInicial extends StatelessWidget {
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/piggy-bank.png',
-              buttonText: 'Poupança para\n Aposentadoria',
+              buttonText: 'Juros Compostos\n Investimento',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -47,19 +51,9 @@ class TelaInicial extends StatelessWidget {
               },
             ),
             CustomHomeButton(
-              imagePath: 'assets/images/icons/profits.png',
-              buttonText: 'Comparador de\n Investimentos',
-              onPressed: () {},
-            ),
-            CustomHomeButton(
-              imagePath: 'assets/images/icons/stats.png',
-              buttonText: 'Valor Presente\n Líquido',
-              onPressed: () {},
-            ),
-            CustomHomeButton(
-              imagePath: 'assets/images/icons/maths.png',
-              buttonText: 'Regra de\n três',
-              onPressed: () {},
+              imagePath: 'assets/images/icons/assets.png',
+              buttonText: 'Consórcio x\n Financiamento',
+              onPressed: null,
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/accounting.png',
@@ -68,29 +62,60 @@ class TelaInicial extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => TelaIndicesEconomicos()),
+                      builder: (context) => const TelaIndicesEconomicos()),
                 );
               },
             ),
             CustomHomeButton(
-              imagePath: 'assets/images/icons/assets.png',
-              buttonText: 'Consórcio x\n Financiamento',
-              onPressed: () {},
+              imagePath: 'assets/images/icons/budget.png',
+              buttonText: 'Taxa\n Equivalente',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TelaTaxaEquivalente()),
+                );
+              },
             ),
             CustomHomeButton(
-              imagePath: 'assets/images/icons/sheets.png',
-              buttonText: 'Gerador de\n Tabelas',
-              onPressed: () {},
+              imagePath: 'assets/images/icons/maths.png',
+              buttonText: 'Regra de\n três',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TelaRegraDeTres()),
+                );
+              },
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/profits.png',
+              buttonText: 'Comparador de\n Investimentos',
+              onPressed: null,
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/stats.png',
+              buttonText: 'Valor Presente\n Líquido',
+              onPressed: null,
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/idea.png',
               buttonText: 'Sugestão de\n Nova Função',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TelaSugestao()),
+                );
+              },
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/information.png',
               buttonText: 'Sobre o\n App',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TelaSobreApp()),
+                );
+              },
             ),
           ]),
     );
