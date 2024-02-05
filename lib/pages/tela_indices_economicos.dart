@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+import '../helpers/indices_helper.dart';
 
 class TelaIndicesEconomicos extends StatefulWidget {
   const TelaIndicesEconomicos({Key? key}) : super(key: key);
@@ -11,34 +14,31 @@ class TelaIndicesEconomicos extends StatefulWidget {
 }
 
 class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
   List<dynamic> ipcaData = [];
+  double ipcaSum = 0.0;
+  IPCAHelper ipcaHelper = IPCAHelper();
+  double selic = 0.0;
+  SelicHelper selicHelper = SelicHelper();
 
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting('pt_BR', null);
     buscarIPCA();
+    buscarSelic();
   }
 
   buscarIPCA() async {
-    var url = Uri.parse(
-        'http://api.bcb.gov.br/dados/serie/bcdata.sgs.433/ultimos/12?formato=json');
-    var response = await http.get(url);
+    ipcaData = await ipcaHelper.buscarIPCA();
+    setState(() {
+      ipcaSum = ipcaHelper.calcularIPCA(ipcaData);
+    });
+  }
 
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      print('Dados recebidos da API:');
-      print(data);
-      var oneYearAgo = DateTime.now().subtract(Duration(days: 365));
-      setState(() {
-        ipcaData = data
-            .where((item) => DateTime.parse(item['data']).isAfter(oneYearAgo))
-            .toList();
-      });
-      print('Dados filtrados:');
-      print(ipcaData);
-    } else {
-      throw Exception('Falha ao carregar dados do IPCA');
-    }
+  buscarSelic() async {
+    selic = await selicHelper.buscarSelic();
+    setState(() {});
   }
 
   @override
@@ -52,27 +52,46 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
         child: Column(
           children: <Widget>[
             Text(
-              DateFormat('EEEE, dd/MM/yyyy').format(DateTime.now()),
+              capitalize(DateFormat('EEEE, dd/MM/yyyy', 'pt_BR')
+                  .format(DateTime.now())),
               style: const TextStyle(fontSize: 24),
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: ipcaData.length,
+                itemCount: 4, // Apenas dois itens: o último mês e a soma
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(DateFormat('dd/MM/yyyy')
-                        .format(DateTime.parse(ipcaData[index]['data']))),
-                    subtitle: Text(ipcaData[index]['valor'].toString()),
-                  );
+                  if (index == 0) {
+                    return ipcaData.isNotEmpty
+                        ? ListTile(
+                            title: Text(
+                                'IPCA ${capitalize(DateFormat('MMMM/yyyy', 'pt_BR').format(DateTime.parse(ipcaData.last['VALDATA'])))}:'),
+                            subtitle: Text('${ipcaData.last['VALVALOR']}%'),
+                          )
+                        : const ListTile(
+                            title: Text('Carregando dados do IPCA...'),
+                          );
+                  } else if (index == 1) {
+                    return ListTile(
+                      title: const Text('IPCA acumulado dos últimos 12 meses:'),
+                      subtitle: Text('${ipcaSum.toStringAsFixed(2)}%'),
+                    );
+                  } else if (index == 2) {
+                    return ListTile(
+                      title: const Text('Selic:'),
+                      subtitle: Text('${(selic + 0.1).toStringAsFixed(2)}%'),
+                    );
+                  } else {
+                    return ListTile(
+                      title: const Text('CDI:'),
+                      subtitle: Text('${selic.toStringAsFixed(2)}%'),
+                    );
+                  }
                 },
               ),
             ),
-            Row(
+            const Row(
               children: [
-                const Text('Ipeadata '),
-                Text(
-                  DateFormat('EEEE, dd/MM/yyyy').format(DateTime.now()),
-                ),
+                Text('Fonte: Ipeadata e Bacen'),
               ],
             ),
           ],
