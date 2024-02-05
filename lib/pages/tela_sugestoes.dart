@@ -1,4 +1,6 @@
+import 'package:calculadora_bancario/components/insert_field.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TelaSugestao extends StatefulWidget {
@@ -13,6 +15,7 @@ class _TelaSugestaoState extends State<TelaSugestao> {
   String? nome;
   String? telefone;
   String? sugestao;
+  String? email; // Adicione esta linha
 
   void _enviarSugestao() {
     final form = _formKey.currentState;
@@ -25,16 +28,15 @@ class _TelaSugestaoState extends State<TelaSugestao> {
   void _launchURL() async {
     final Uri params = Uri(
       scheme: 'mailto',
-      path: 'danubioalves@gmail.com',
+      path: email, // Altere para o email do usuário
       query:
           'subject=Sugestão de Nova Função&body=Nome: $nome\nTelefone: $telefone\nSugestão: $sugestao',
     );
 
-    var url = params.toString();
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+    if (await canLaunch(params.toString())) {
+      await launch(params.toString());
     } else {
-      throw 'Could not launch $url';
+      throw 'Could not launch $params';
     }
   }
 
@@ -50,8 +52,8 @@ class _TelaSugestaoState extends State<TelaSugestao> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Nome'),
+              CustomInsertField(
+                label: 'Nome',
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Por favor, insira seu nome';
@@ -62,14 +64,40 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                   nome = value;
                 },
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Telefone'),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomInsertField(
+                maskFormatter: MaskTextInputFormatter(
+                  mask: '(##) #####-####',
+                  filter: {"#": RegExp(r'[0-9]')},
+                ),
+                keyboardType: TextInputType.phone,
+                label: 'Telefone',
                 onSaved: (value) {
                   telefone = value;
                 },
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Sugestão'),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomInsertField(
+                label: 'Email',
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Por favor, insira seu email';
+                  }
+                  // Você pode adicionar mais validações aqui, como verificar se o valor contém um @
+                  return null;
+                },
+                onSaved: (value) {
+                  email = value;
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomInsertField(
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Por favor, insira sua sugestão';
@@ -79,9 +107,16 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                 onSaved: (value) {
                   sugestao = value;
                 },
+                label: 'Sugestão',
+              ),
+              const SizedBox(
+                height: 16,
               ),
               ElevatedButton(
-                onPressed: _enviarSugestao,
+                onPressed: () {
+                  _enviarSugestao();
+                  Navigator.pop(context);
+                },
                 child: const Text('Enviar'),
               ),
             ],

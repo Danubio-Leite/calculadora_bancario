@@ -32,6 +32,8 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CustomInsertField(
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 label: 'Valor do Empréstimo',
                 prefix: const Text('R\$ '),
                 onChanged: (value) {
@@ -44,6 +46,8 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
               ),
               const SizedBox(height: 16),
               CustomInsertField(
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 label: 'Taxa de Juros (%)',
                 suffix: const Text('%'),
                 onChanged: (value) {
@@ -55,6 +59,8 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
               ),
               const SizedBox(height: 16),
               CustomInsertField(
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 label: 'Prazo (em meses)',
                 onChanged: (value) {
                   setState(() {

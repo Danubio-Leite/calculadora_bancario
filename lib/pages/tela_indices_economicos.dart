@@ -25,78 +25,105 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
   void initState() {
     super.initState();
     initializeDateFormatting('pt_BR', null);
-    buscarIPCA();
-    buscarSelic();
+    // buscarIPCA();
+    // buscarSelic();
   }
 
-  buscarIPCA() async {
-    ipcaData = await ipcaHelper.buscarIPCA();
-    setState(() {
-      ipcaSum = ipcaHelper.calcularIPCA(ipcaData);
-    });
+  Future buscarIPCA() async {
+    try {
+      ipcaData = await ipcaHelper.buscarIPCA();
+      setState(() {
+        ipcaSum = ipcaHelper.calcularIPCA(ipcaData);
+      });
+    } catch (e) {
+      print('Erro ao buscar IPCA: $e');
+    }
   }
 
-  buscarSelic() async {
-    selic = await selicHelper.buscarSelic();
-    setState(() {});
+  Future buscarSelic() async {
+    try {
+      selic = await selicHelper.buscarSelic();
+      setState(() {});
+    } catch (e) {
+      print('Erro ao buscar Selic: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Índices Econômicos'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              capitalize(DateFormat('EEEE, dd/MM/yyyy', 'pt_BR')
-                  .format(DateTime.now())),
-              style: const TextStyle(fontSize: 24),
+    return FutureBuilder(
+      future: Future.wait<void>([buscarIPCA(), buscarSelic()]),
+      builder: (context, snapshot) {
+        // if (snapshot.connectionState == ConnectionState.waiting) {
+        //   return const AlertDialog(
+        //     content: Row(
+        //       children: [
+        //         CircularProgressIndicator(),
+        //         SizedBox(width: 20),
+        //         Text('Carregando dados...'),
+        //       ],
+        //     ),
+        //   );
+        // } else
+        {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Índices Econômicos'),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 4, // Apenas dois itens: o último mês e a soma
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return ipcaData.isNotEmpty
-                        ? ListTile(
-                            title: Text(
-                                'IPCA ${capitalize(DateFormat('MMMM/yyyy', 'pt_BR').format(DateTime.parse(ipcaData.last['VALDATA'])))}:'),
-                            subtitle: Text('${ipcaData.last['VALVALOR']}%'),
-                          )
-                        : const ListTile(
-                            title: Text('Carregando dados do IPCA...'),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    capitalize(DateFormat('EEEE, dd/MM/yyyy', 'pt_BR')
+                        .format(DateTime.now())),
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: 4, // Apenas dois itens: o último mês e a soma
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return ipcaData.isNotEmpty
+                              ? ListTile(
+                                  title: Text(
+                                      'IPCA ${capitalize(DateFormat('MMMM/yyyy', 'pt_BR').format(DateTime.parse(ipcaData.last['VALDATA'])))}:'),
+                                  subtitle:
+                                      Text('${ipcaData.last['VALVALOR']}%'),
+                                )
+                              : Container(); // Retorna um Container vazio se ipcaData estiver vazio
+                        } else if (index == 1) {
+                          return ListTile(
+                            title: const Text(
+                                'IPCA acumulado dos últimos 12 meses:'),
+                            subtitle: Text('${ipcaSum.toStringAsFixed(2)}%'),
                           );
-                  } else if (index == 1) {
-                    return ListTile(
-                      title: const Text('IPCA acumulado dos últimos 12 meses:'),
-                      subtitle: Text('${ipcaSum.toStringAsFixed(2)}%'),
-                    );
-                  } else if (index == 2) {
-                    return ListTile(
-                      title: const Text('Selic:'),
-                      subtitle: Text('${(selic + 0.1).toStringAsFixed(2)}%'),
-                    );
-                  } else {
-                    return ListTile(
-                      title: const Text('CDI:'),
-                      subtitle: Text('${selic.toStringAsFixed(2)}%'),
-                    );
-                  }
-                },
+                        } else if (index == 2) {
+                          return ListTile(
+                            title: const Text('Selic:'),
+                            subtitle:
+                                Text('${(selic + 0.1).toStringAsFixed(2)}%'),
+                          );
+                        } else {
+                          return ListTile(
+                            title: const Text('CDI:'),
+                            subtitle: Text('${selic.toStringAsFixed(2)}%'),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  const Row(
+                    children: [
+                      Text('Fonte: Ipeadata e Bacen'),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const Row(
-              children: [
-                Text('Fonte: Ipeadata e Bacen'),
-              ],
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 }

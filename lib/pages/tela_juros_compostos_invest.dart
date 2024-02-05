@@ -25,7 +25,7 @@ class _TelaCalculadoraAposentadoriaState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculadora de Aposentadoria'),
+        title: const Text('Juros Compostos - Investimento'),
       ),
       body: Form(
         key: _formKey,
@@ -33,6 +33,8 @@ class _TelaCalculadoraAposentadoriaState
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
             CustomInsertField(
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               label: 'Aplicação inicial',
               prefix: const Text('R\$ '),
               onChanged: (value) {
@@ -45,6 +47,8 @@ class _TelaCalculadoraAposentadoriaState
             ),
             const SizedBox(height: 16),
             CustomInsertField(
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               label: 'Aplicação mensal',
               prefix: const Text('R\$ '),
               onChanged: (value) {
@@ -60,6 +64,8 @@ class _TelaCalculadoraAposentadoriaState
               children: <Widget>[
                 Expanded(
                   child: CustomInsertField(
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     label: 'Taxa de juros estimada',
                     suffix: const Text('%'),
                     onChanged: (value) {
@@ -101,6 +107,8 @@ class _TelaCalculadoraAposentadoriaState
               children: <Widget>[
                 Expanded(
                   child: CustomInsertField(
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     label: 'Período',
                     onChanged: (value) {
                       setState(() {

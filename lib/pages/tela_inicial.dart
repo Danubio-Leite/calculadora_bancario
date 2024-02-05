@@ -2,11 +2,13 @@ import 'package:calculadora_bancario/components/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../components/custom_home_button.dart';
-import 'cdc.dart';
-import 'tela_aposentadoria.dart';
+import 'tela_cdc.dart';
+import 'tela_juros_compostos_invest.dart';
 import 'tela_indices_economicos.dart';
+import 'tela_regra_de_tres.dart';
 import 'tela_sobre_app.dart';
 import 'tela_sugestoes.dart';
+import 'tela_taxa_equivalente.dart';
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
@@ -60,7 +62,28 @@ class TelaInicial extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => TelaIndicesEconomicos()),
+                      builder: (context) => const TelaIndicesEconomicos()),
+                );
+              },
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/budget.png',
+              buttonText: 'Taxa\n Equivalente',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TelaTaxaEquivalente()),
+                );
+              },
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/maths.png',
+              buttonText: 'Regra de\n três',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TelaRegraDeTres()),
                 );
               },
             ),
@@ -72,16 +95,6 @@ class TelaInicial extends StatelessWidget {
             CustomHomeButton(
               imagePath: 'assets/images/icons/stats.png',
               buttonText: 'Valor Presente\n Líquido',
-              onPressed: null,
-            ),
-            CustomHomeButton(
-              imagePath: 'assets/images/icons/maths.png',
-              buttonText: 'Regra de\n três',
-              onPressed: null,
-            ),
-            CustomHomeButton(
-              imagePath: 'assets/images/icons/sheets.png',
-              buttonText: 'Gerador de\n Tabelas',
               onPressed: null,
             ),
             CustomHomeButton(
