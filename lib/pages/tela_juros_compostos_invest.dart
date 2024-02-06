@@ -14,7 +14,7 @@ class _TelaCalculadoraAposentadoriaState
     extends State<TelaCalculadoraAposentadoria> {
   final _formKey = GlobalKey<FormState>();
   String _periodoSelecionado = 'Meses';
-  String _jurosSelecionado = 'Meses';
+  String _jurosSelecionado = 'a.m.';
   int periodo = 0;
   double aplicacaoInicial = 0;
   double aplicacaoMensal = 0;
@@ -86,7 +86,7 @@ class _TelaCalculadoraAposentadoriaState
                   ),
                   child: DropdownButton<String>(
                     value: _jurosSelecionado,
-                    items: <String>['Meses', 'Anos'].map((String value) {
+                    items: <String>['a.m.', 'a.a.'].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -162,7 +162,7 @@ class _TelaCalculadoraAposentadoriaState
             const SizedBox(height: 24),
             if (resultado > 0)
               ResultCard(
-                titulo: 'Pagamento Mensal',
+                titulo: 'Montante após o período:',
                 resultado: 'R\$ ${resultado.toStringAsFixed(2)}',
               ),
           ],

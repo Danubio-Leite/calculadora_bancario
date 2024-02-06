@@ -1,4 +1,5 @@
 import 'package:calculadora_bancario/components/custom_appbar.dart';
+import 'package:calculadora_bancario/pages/tela_consorcio_financiamento.dart';
 import 'package:flutter/material.dart';
 
 import '../components/custom_home_button.dart';
@@ -19,7 +20,7 @@ class TelaInicial extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Calculadora',
         title2: 'do Bancário',
-        imagePath: 'assets/images/icons/budget1.png',
+        imagePath: 'assets/images/icons/team.png',
       ),
       body: GridView.count(
           primary: false,
@@ -53,7 +54,13 @@ class TelaInicial extends StatelessWidget {
             CustomHomeButton(
               imagePath: 'assets/images/icons/assets.png',
               buttonText: 'Consórcio x\n Financiamento',
-              onPressed: null,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TelaFinanciamentoXConsorcio()),
+                );
+              },
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/accounting.png',

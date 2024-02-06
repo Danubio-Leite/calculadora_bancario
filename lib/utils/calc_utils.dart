@@ -58,7 +58,7 @@ class CalculadoraAposentadoria {
       String jurosSelecionado,
       String periodoSelecionado) {
     double taxa = taxaJuros / 100;
-    if (jurosSelecionado == 'Anos') {
+    if (jurosSelecionado == 'a.a.') {
       taxa /= 12;
     }
     if (periodoSelecionado == 'Anos') {
