@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import '../components/custom_calc_button.dart';
+import '../../components/custom_calc_button.dart';
 
 class TabelaConsorcioFinanciamento extends StatelessWidget {
   final GlobalKey _globalKey = GlobalKey();
+  final formatador = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+
   final double valorCartaCredito;
   final double valorFinanciado;
   final int prazoConsorcio;
@@ -55,6 +58,7 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                     key: _globalKey,
                     child: Container(
                       decoration: BoxDecoration(
+                        color: Colors.white,
                         border: Border.all(color: Colors.grey),
                       ),
                       child: Theme(
@@ -80,8 +84,8 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                           rows: <DataRow>[
                             _buildDataRow(
                                 'Valor',
-                                'R\$ ${valorCartaCredito.toStringAsFixed(2)}',
-                                'R\$ ${valorFinanciado.toStringAsFixed(2)}'),
+                                formatador.format(valorCartaCredito),
+                                formatador.format(valorFinanciado)),
                             _buildDataRow('Prazo', '$prazoConsorcio meses',
                                 '$prazoFinanciamento meses'),
                             _buildDataRow(
@@ -90,12 +94,12 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                                 '${taxaMensalfinanciamento.toStringAsFixed(2)}%'),
                             _buildDataRow(
                                 'Parcela',
-                                'R\$ ${parcelaConsorcio.toStringAsFixed(2)}',
-                                'R\$ ${parcelaFinanciamento.toStringAsFixed(2)}'),
+                                formatador.format(parcelaConsorcio),
+                                formatador.format(parcelaFinanciamento)),
                             _buildDataRow(
                                 'Custo Total',
-                                'R\$ ${custoTotalConsorcio.toStringAsFixed(2)}',
-                                'R\$ ${custoTotalFinanciamento.toStringAsFixed(2)}'),
+                                formatador.format(custoTotalConsorcio),
+                                formatador.format(custoTotalFinanciamento))
                           ],
                         ),
                       ),

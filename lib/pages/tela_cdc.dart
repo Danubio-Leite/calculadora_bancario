@@ -12,6 +12,7 @@ class TelaCalculadoraEmprestimo extends StatefulWidget {
 }
 
 class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
+  final formatador = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
   double valorEmprestimo = 0;
   double taxaJuros = 0;
   int prazoMeses = 0;
@@ -24,6 +25,28 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calculadora de Empréstimo'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sobre a Calculadora de Empréstimo'),
+                  content: const Text(
+                      'Esta calculadora permite que você calcule o valor da parcela de um empréstimo, considerando o valor do empréstimo, seguros e taxas, a taxa de juros mensal e o prazo em meses.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -151,7 +174,7 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
               if (pagamentoMensal > 0)
                 ResultCard(
                   titulo: 'Pagamento Mensal',
-                  resultado: 'R\$ ${pagamentoMensal.toStringAsFixed(2)}',
+                  resultado: formatador.format(pagamentoMensal),
                 ),
             ],
           ),

@@ -14,10 +14,27 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-          bottom: 16.0), // adiciona margem na parte inferior
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(255, 159, 185, 227),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black,
+            width: 2,
+          ),
+        ),
+      ),
       child: Container(
-        color: const Color.fromARGB(255, 159, 185, 227),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 159, 185, 227),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(11),
+            bottomRight: Radius.circular(11),
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Row(

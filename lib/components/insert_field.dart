@@ -40,10 +40,19 @@ class CustomInsertField extends StatelessWidget {
         labelText: label,
         border: const OutlineInputBorder(),
         prefixIcon: prefix != null
-            ? Container(alignment: Alignment.center, width: 48, child: prefix)
+            ? Container(
+                alignment: Alignment.center,
+                width: 48,
+                child: prefix,
+              )
             : null,
         suffixIcon: suffix != null
-            ? Container(alignment: Alignment.center, width: 48, child: suffix)
+            ? Container(
+                alignment: Alignment.center,
+                width: 54,
+                padding: const EdgeInsets.only(right: 8),
+                child: suffix,
+              )
             : null,
       ),
       enabled: enabled,

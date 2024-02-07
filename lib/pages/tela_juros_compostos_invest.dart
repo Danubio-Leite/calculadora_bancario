@@ -26,6 +26,28 @@ class _TelaCalculadoraAposentadoriaState
     return Scaffold(
       appBar: AppBar(
         title: const Text('Juros Compostos - Investimento'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sobre a Calculadora de Juros Compostos'),
+                  content: const Text(
+                      'Esta calculadora permite que você calcule o montante de um investimento, considerando a aplicação inicial, a aplicação mensal, a taxa de juros e o período.\n\nO valor apresentado não leva em consideração a cobrança de impostos.'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Form(
         key: _formKey,

@@ -78,17 +78,14 @@ class CalculadoraJurosCompostosInvestimentos {
       String periodoSelecionado) {
     double taxa = taxaJuros / 100;
     if (jurosSelecionado == 'a.a.') {
-      taxa /= 12;
+      taxa = calcularTaxaEquivalente(taxaJuros, 1, 'Anos', 1, 'Meses') / 100;
     }
     if (periodoSelecionado == 'Anos') {
       periodo *= 12;
     }
 
-    double montante = aplicacaoInicial;
-    for (int i = 0; i < periodo; i++) {
-      montante += aplicacaoMensal;
-      montante += montante * taxa;
-    }
+    double montante = aplicacaoInicial * pow(1 + taxa, periodo) +
+        aplicacaoMensal * ((pow(1 + taxa, periodo) - 1) / taxa);
 
     return montante;
   }

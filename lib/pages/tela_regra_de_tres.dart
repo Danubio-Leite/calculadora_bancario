@@ -22,6 +22,28 @@ class _TelaRegraDeTresState extends State<TelaRegraDeTres> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calculadora de Regra de Três'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sobre a Calculadora de Regra de Três'),
+                  content: const Text(
+                      'Ferramenta matemática utilizada para encontrar um valor desconhecido com base em proporções conhecidas.'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

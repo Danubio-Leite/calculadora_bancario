@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../components/custom_calc_button.dart';
-import '../components/insert_field.dart';
+import 'package:intl/intl.dart';
+import '../../components/custom_calc_button.dart';
+import '../../components/insert_field.dart';
 import 'dart:math' as math;
 
-import 'tela_tabela_consorcio.dart';
+import 'tela_tabela_consorcio_financiamento.dart';
 
 class TelaFinanciamentoXConsorcio extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _TelaFinanciamentoXConsorcioState
     extends State<TelaFinanciamentoXConsorcio> {
   final _formKey = GlobalKey<FormState>();
   String dropdownValue = 'a.m.';
+  final formatador = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
 
   final valorFinanciadoController = TextEditingController();
   final prazoFinanciamentoController = TextEditingController();
@@ -38,6 +40,7 @@ class _TelaFinanciamentoXConsorcioState
   double taxaMensalfinanciamento = 0.0;
   double custoTotalFinanciamento = 0.0;
   double custoTotalConsorcio = 0.0;
+  double lanceConsorcio = 0.0;
 
   @override
   void dispose() {
@@ -60,6 +63,29 @@ class _TelaFinanciamentoXConsorcioState
     return Scaffold(
       appBar: AppBar(
         title: const Text('Financiamento X Consórcio'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text(
+                      'Sobre o Comparador de Financiamento e Consórcio'),
+                  content: const Text(
+                      'Esta calculadora permite que você compare o custo total de um financiamento e de um consórcio, considerando o valor financiado, o prazo e a taxa de juros para o financiamento, e o valor da carta de crédito, o prazo e a taxa de administração para o consórcio.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -69,6 +95,14 @@ class _TelaFinanciamentoXConsorcioState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                const Center(
+                  child: Text('EM DESENVOLVIMENTO',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
                 const Text('Financiamento:', style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 6),
                 CustomInsertField(
@@ -196,6 +230,8 @@ class _TelaFinanciamentoXConsorcioState
                       parcelaConsorcio =
                           double.tryParse(parcelaConsorcioController.text) ??
                               0.0;
+                      lanceConsorcio =
+                          double.tryParse(lanceConsorcioController.text) ?? 0.0;
                       taxaAdministracao =
                           double.tryParse(taxaAdministracaoController.text) ??
                               0.0;
@@ -205,11 +241,18 @@ class _TelaFinanciamentoXConsorcioState
                       } else {
                         taxaMensalfinanciamento = taxaJuros / 12;
                       }
-                      custoTotalFinanciamento =
-                          parcelaFinanciamento * prazoFinanciamento -
-                              valorFinanciado;
                       custoTotalConsorcio =
                           parcelaConsorcio * prazoConsorcio - valorCartaCredito;
+                      double totalPagoConsorcio =
+                          (parcelaConsorcio * prazoConsorcio) + lanceConsorcio;
+                      custoTotalConsorcio =
+                          totalPagoConsorcio - valorCartaCredito;
+                      print('Parcela Consórcio: $parcelaConsorcio');
+                      print('Prazo Consórcio: $prazoConsorcio');
+                      print('Valor Carta Crédito: $valorCartaCredito');
+                      print('Custo Total Consórcio: $custoTotalConsorcio');
+                      print('Total Consórcio: $totalPagoConsorcio');
+
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TabelaConsorcioFinanciamento(
