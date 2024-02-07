@@ -40,20 +40,6 @@ double calcularPagamentoMensal(double valorEmprestimo, double taxaJuros,
   return pagamentoMensal;
 }
 
-// void calcularEmprestimo() {
-//   if (_formKey.currentState.validate()) {
-//     double valorEmprestimo = double.parse(_valorEmprestimoController.text);
-//     double taxaJuros = double.parse(_taxaJurosController.text) / 100;
-//     int prazo = int.parse(_prazoController.text);
-
-//     double taxaJurosMensal = taxaJuros / 12;
-//     prestacaoMensal = (valorEmprestimo * taxaJurosMensal) /
-//         (1 - (1 + taxaJurosMensal).pow(-prazo));
-
-//     setState(() {});
-//   }
-// }
-
 double calcularTaxaEquivalente(double taxa, int periodoOriginal,
     String unidadeOriginal, int periodoCalculo, String unidadeCalculo) {
   // Converter a taxa de porcentagem para uma fração
@@ -82,7 +68,7 @@ double calcularTaxaEquivalente(double taxa, int periodoOriginal,
   return taxaEquivalente;
 }
 
-class CalculadoraAposentadoria {
+class CalculadoraJurosCompostosInvestimentos {
   static double calcularMontante(
       double aplicacaoInicial,
       double aplicacaoMensal,

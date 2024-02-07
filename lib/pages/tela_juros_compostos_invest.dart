@@ -148,7 +148,8 @@ class _TelaCalculadoraAposentadoriaState
               texto: 'Calcular',
               onPressed: () {
                 setState(() {
-                  resultado = CalculadoraAposentadoria.calcularMontante(
+                  resultado =
+                      CalculadoraJurosCompostosInvestimentos.calcularMontante(
                     aplicacaoInicial,
                     aplicacaoMensal,
                     taxaJuros,

@@ -16,8 +16,8 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
   double taxaJuros = 0;
   int prazoMeses = 0;
   double pagamentoMensal = 0;
-  DateTime?
-      dataPrimeiraParcela; // Adiciona um novo campo para a data da primeira parcela
+  DateTime? dataPrimeiraParcela;
+  double valorSeguros = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,20 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
                 onChanged: (value) {
                   setState(() {
                     valorEmprestimo = double.tryParse(
+                            value.replaceAll('.', ',').replaceAll(',', '.')) ??
+                        0;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomInsertField(
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                label: 'Seguros e Taxas',
+                prefix: const Text('R\$ '),
+                onChanged: (value) {
+                  setState(() {
+                    valorSeguros = double.tryParse(
                             value.replaceAll('.', ',').replaceAll(',', '.')) ??
                         0;
                   });
@@ -108,8 +122,11 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
                 onPressed: () {
                   if (dataPrimeiraParcela != null) {
                     setState(() {
-                      pagamentoMensal = calcularPagamentoMensal(valorEmprestimo,
-                          taxaJuros, prazoMeses, dataPrimeiraParcela!);
+                      pagamentoMensal = calcularPagamentoMensal(
+                          valorEmprestimo + valorSeguros,
+                          taxaJuros,
+                          prazoMeses,
+                          dataPrimeiraParcela!);
                     });
                   } else {
                     // Mostra um alerta se a data da primeira parcela não for selecionada
