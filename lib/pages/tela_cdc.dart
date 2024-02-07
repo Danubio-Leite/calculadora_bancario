@@ -48,7 +48,7 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
               CustomInsertField(
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                label: 'Taxa de Juros (%)',
+                label: 'Taxa de Juros a.m.',
                 suffix: const Text('%'),
                 onChanged: (value) {
                   setState(() {
