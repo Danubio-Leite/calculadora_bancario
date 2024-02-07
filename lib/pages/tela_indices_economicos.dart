@@ -69,11 +69,41 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Índices Econômicos'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.info_outline),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Sobre os Índices Econômicos'),
+                        content: const Text(
+                            'Esta tela apresenta os índices econômicos mais recentes, como o IPCA (Índice Nacional de Preços ao Consumidor Amplo), a Selic e o CDI (Certificado de Depósito Interbancário).\n\nOs dados são obtidos do Ipeadata e do Banco Central do Brasil. As informações são atualizadas mensalmente.'),
+                        actions: [
+                          TextButton(
+                            child: const Text('OK',
+                                style: TextStyle(color: Colors.black)),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: <Widget>[
+                  const Center(
+                    child: Text('EM DESENVOLVIMENTO',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                   Text(
                     capitalize(DateFormat('EEEE, dd/MM/yyyy', 'pt_BR')
                         .format(DateTime.now())),

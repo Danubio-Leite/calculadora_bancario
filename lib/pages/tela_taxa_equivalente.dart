@@ -25,84 +25,106 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cálculo de Taxa Equivalente'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sobre a Calculadora de Taxa Equivalente'),
+                  content: const Text(
+                      'Esta calculadora permite que você calcule a taxa de juros equivalente, considerando a taxa de juros original, o período original e o período para cálculo.'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: <Widget>[
-            CustomInsertField(
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              label: 'Taxa de juros',
-              suffix: const Text('%'),
-              onChanged: (value) {
-                setState(() {
-                  taxaJuros = double.tryParse(value.replaceAll(',', '.')) ?? 0;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: CustomInsertField(
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    label: 'Período original',
-                    onChanged: (value) {
-                      setState(() {
-                        periodoOriginal = int.tryParse(value) ?? 0;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(width: 16),
-                _buildDropdownButton('_periodoOriginalSelecionado'),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: CustomInsertField(
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    label: 'Período para cálculo',
-                    onChanged: (value) {
-                      setState(() {
-                        periodoCalculo = int.tryParse(value) ?? 0;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(width: 16),
-                _buildDropdownButton('_periodoCalculoSelecionado'),
-              ],
-            ),
-            const SizedBox(height: 16),
-            CustomCalcButton(
-              texto: 'Calcular',
-              onPressed: () {
-                setState(() {
-                  taxaEquivalente = calcularTaxaEquivalente(
-                    taxaJuros,
-                    periodoOriginal,
-                    _periodoOriginalSelecionado,
-                    periodoCalculo,
-                    _periodoCalculoSelecionado,
-                  );
-                });
-              },
-            ),
-            if (taxaEquivalente != 0)
-              ResultCard(
-                titulo: 'Taxa equivalente',
-                resultado: '${taxaEquivalente.toStringAsFixed(2)}%',
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: <Widget>[
+              CustomInsertField(
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                label: 'Taxa de juros',
+                suffix: const Text('%'),
+                onChanged: (value) {
+                  setState(() {
+                    taxaJuros =
+                        double.tryParse(value.replaceAll(',', '.')) ?? 0;
+                  });
+                },
               ),
-          ],
-        ),
-      ),
+              const SizedBox(height: 16),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: CustomInsertField(
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      label: 'Período original',
+                      onChanged: (value) {
+                        setState(() {
+                          periodoOriginal = int.tryParse(value) ?? 0;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  _buildDropdownButton('_periodoOriginalSelecionado'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: CustomInsertField(
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      label: 'Período para cálculo',
+                      onChanged: (value) {
+                        setState(() {
+                          periodoCalculo = int.tryParse(value) ?? 0;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  _buildDropdownButton('_periodoCalculoSelecionado'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              CustomCalcButton(
+                texto: 'Calcular',
+                onPressed: () {
+                  setState(() {
+                    taxaEquivalente = calcularTaxaEquivalente(
+                      taxaJuros,
+                      periodoOriginal,
+                      _periodoOriginalSelecionado,
+                      periodoCalculo,
+                      _periodoCalculoSelecionado,
+                    );
+                  });
+                },
+              ),
+              if (taxaEquivalente != 0)
+                const ResultCard(
+                  titulo: 'Taxa equivalente',
+                  resultado: 'taxaEquivalente.toStringAsFixed(4)}%',
+                ),
+            ],
+          )),
     );
   }
 

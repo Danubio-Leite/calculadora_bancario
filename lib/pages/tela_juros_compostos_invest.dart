@@ -14,7 +14,7 @@ class _TelaCalculadoraAposentadoriaState
     extends State<TelaCalculadoraAposentadoria> {
   final _formKey = GlobalKey<FormState>();
   String _periodoSelecionado = 'Meses';
-  String _jurosSelecionado = 'Meses';
+  String _jurosSelecionado = 'a.m.';
   int periodo = 0;
   double aplicacaoInicial = 0;
   double aplicacaoMensal = 0;
@@ -26,6 +26,28 @@ class _TelaCalculadoraAposentadoriaState
     return Scaffold(
       appBar: AppBar(
         title: const Text('Juros Compostos - Investimento'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sobre a Calculadora de Juros Compostos'),
+                  content: const Text(
+                      'Esta calculadora permite que você calcule o montante de um investimento, considerando a aplicação inicial, a aplicação mensal, a taxa de juros e o período.\n\nO valor apresentado não leva em consideração a cobrança de impostos.'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -86,7 +108,7 @@ class _TelaCalculadoraAposentadoriaState
                   ),
                   child: DropdownButton<String>(
                     value: _jurosSelecionado,
-                    items: <String>['Meses', 'Anos'].map((String value) {
+                    items: <String>['a.m.', 'a.a.'].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -148,7 +170,8 @@ class _TelaCalculadoraAposentadoriaState
               texto: 'Calcular',
               onPressed: () {
                 setState(() {
-                  resultado = CalculadoraAposentadoria.calcularMontante(
+                  resultado =
+                      CalculadoraJurosCompostosInvestimentos.calcularMontante(
                     aplicacaoInicial,
                     aplicacaoMensal,
                     taxaJuros,
@@ -162,7 +185,7 @@ class _TelaCalculadoraAposentadoriaState
             const SizedBox(height: 24),
             if (resultado > 0)
               ResultCard(
-                titulo: 'Pagamento Mensal',
+                titulo: 'Montante após o período:',
                 resultado: 'R\$ ${resultado.toStringAsFixed(2)}',
               ),
           ],

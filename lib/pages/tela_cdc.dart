@@ -12,18 +12,41 @@ class TelaCalculadoraEmprestimo extends StatefulWidget {
 }
 
 class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
+  final formatador = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
   double valorEmprestimo = 0;
   double taxaJuros = 0;
   int prazoMeses = 0;
   double pagamentoMensal = 0;
-  DateTime?
-      dataPrimeiraParcela; // Adiciona um novo campo para a data da primeira parcela
+  DateTime? dataPrimeiraParcela;
+  double valorSeguros = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calculadora de Empréstimo'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sobre a Calculadora de Empréstimo'),
+                  content: const Text(
+                      'Esta calculadora permite que você calcule o valor da parcela de um empréstimo, considerando o valor do empréstimo, seguros e taxas, a taxa de juros mensal e o prazo em meses.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -48,7 +71,21 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
               CustomInsertField(
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                label: 'Taxa de Juros (%)',
+                label: 'Seguros e Taxas',
+                prefix: const Text('R\$ '),
+                onChanged: (value) {
+                  setState(() {
+                    valorSeguros = double.tryParse(
+                            value.replaceAll('.', ',').replaceAll(',', '.')) ??
+                        0;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomInsertField(
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                label: 'Taxa de Juros a.m.',
                 suffix: const Text('%'),
                 onChanged: (value) {
                   setState(() {
@@ -108,8 +145,11 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
                 onPressed: () {
                   if (dataPrimeiraParcela != null) {
                     setState(() {
-                      pagamentoMensal = calcularPagamentoMensal(valorEmprestimo,
-                          taxaJuros, prazoMeses, dataPrimeiraParcela!);
+                      pagamentoMensal = calcularPagamentoMensal(
+                          valorEmprestimo + valorSeguros,
+                          taxaJuros,
+                          prazoMeses,
+                          dataPrimeiraParcela!);
                     });
                   } else {
                     // Mostra um alerta se a data da primeira parcela não for selecionada
@@ -134,7 +174,7 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
               if (pagamentoMensal > 0)
                 ResultCard(
                   titulo: 'Pagamento Mensal',
-                  resultado: 'R\$ ${pagamentoMensal.toStringAsFixed(2)}',
+                  resultado: formatador.format(pagamentoMensal),
                 ),
             ],
           ),
