@@ -90,3 +90,46 @@ class CalculadoraJurosCompostosInvestimentos {
     return montante;
   }
 }
+
+class CalculadoraSAC {
+  List<double> calculaFinanciamentoSAC(double valorFinanciado,
+      int prazoFinanciamento, double taxaDeJuros, String tipoDeTaxa) {
+    // Converte a taxa de juros para ao mês, se necessário
+    double taxa = taxaDeJuros / 100;
+    if (tipoDeTaxa == 'a.a.') {
+      taxa = calcularTaxaEquivalente(taxaDeJuros, 1, 'Anos', 1, 'Meses') / 100;
+    }
+
+    taxaDeJuros = taxa;
+
+    double amortizacao = valorFinanciado / prazoFinanciamento;
+    List<double> parcelas = [];
+
+    for (int i = 0; i < prazoFinanciamento; i++) {
+      double juros = (valorFinanciado - (amortizacao * i)) * taxaDeJuros;
+      parcelas.add(amortizacao + juros);
+    }
+
+    return parcelas;
+  }
+}
+
+class CalculadoraPriceSimples {
+  double calcularParcelaPrice(double valorEmprestimo, double taxaJuros,
+      int prazoMeses, String _tipoDeTaxaSelecionada) {
+    // Converte a taxa de juros anual para mensal, se necessário
+    double taxa = taxaJuros / 100;
+    if (_tipoDeTaxaSelecionada == 'a.a.') {
+      taxa = calcularTaxaEquivalente(taxaJuros, 1, 'Anos', 1, 'Meses') / 100;
+    }
+
+    // Converte a taxa de juros para uma proporção (por exemplo, de 5 para 0.05)
+    taxaJuros = taxa;
+
+    // Calcula a parcela do empréstimo usando a fórmula de amortização Price
+    double parcela =
+        valorEmprestimo * (taxaJuros / (1 - pow(1 + taxaJuros, -prazoMeses)));
+
+    return parcela;
+  }
+}

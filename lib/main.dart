@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 159, 185, 227),
@@ -26,6 +25,8 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)
+            .copyWith(background: const Color.fromARGB(255, 235, 248, 251)),
       ),
       home: const TelaInicial(),
     );

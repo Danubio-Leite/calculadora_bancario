@@ -41,13 +41,17 @@ class CustomHomeButton extends StatelessWidget {
                           fit: BoxFit.contain,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        buttonText,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                      const SizedBox(height: 5),
+                      Expanded(
+                        child: Center(
+                          child: AutoSizeText(
+                            buttonText,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -69,7 +73,7 @@ class CustomHomeButton extends StatelessWidget {
                       'Em desenvolvimento',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
                     ),
                   ),

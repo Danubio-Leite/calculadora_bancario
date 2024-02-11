@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../components/custom_home_button.dart';
 import 'tela_cdc.dart';
+import 'telas_price_sac/tela_price_sac.dart';
+import 'telas_comparador_investimentos.dart/tela_comparador_investimentos.dart';
 import 'telas_consorcio_investimento/tela_consorcio_investimento.dart';
 import 'tela_juros_compostos_invest.dart';
 import 'tela_indices_economicos.dart';
@@ -25,14 +27,14 @@ class TelaInicial extends StatelessWidget {
       ),
       body: GridView.count(
           primary: false,
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(15),
           crossAxisSpacing: 15,
           mainAxisSpacing: 15,
           crossAxisCount: 2,
           children: [
             CustomHomeButton(
               imagePath: 'assets/images/icons/money.png',
-              buttonText: 'Crédito Direto ao Consumidor',
+              buttonText: 'Parcela\n CDC',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -64,13 +66,24 @@ class TelaInicial extends StatelessWidget {
               },
             ),
             CustomHomeButton(
-              imagePath: 'assets/images/icons/accounting.png',
-              buttonText: 'Indicadores\n Econômicos',
+              imagePath: 'assets/images/icons/budget1.png',
+              buttonText: 'Price x\n Sac',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TelaPriceSac()),
+                );
+              },
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/accounting (1).png',
+              buttonText: 'Comparador de\n Investimentos',
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const TelaIndicesEconomicos()),
+                      builder: (context) =>
+                          const TelaComparadorInvestimentos()),
                 );
               },
             ),
@@ -86,17 +99,6 @@ class TelaInicial extends StatelessWidget {
               },
             ),
             CustomHomeButton(
-              imagePath: 'assets/images/icons/profits.png',
-              buttonText: 'Consórcio como\n Investimento',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TelaConsorcioInvestimento()),
-                );
-              },
-            ),
-            CustomHomeButton(
               imagePath: 'assets/images/icons/maths.png',
               buttonText: 'Regra de\n três',
               onPressed: () {
@@ -105,6 +107,22 @@ class TelaInicial extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => TelaRegraDeTres()),
                 );
               },
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/accounting.png',
+              buttonText: 'Indicadores\n Econômicos',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TelaIndicesEconomicos()),
+                );
+              },
+            ),
+            CustomHomeButton(
+              imagePath: 'assets/images/icons/profits.png',
+              buttonText: 'Consórcio como\n Investimento',
+              onPressed: null,
             ),
             CustomHomeButton(
               imagePath: 'assets/images/icons/stats.png',
