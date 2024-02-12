@@ -86,6 +86,10 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                                 'Valor',
                                 formatador.format(valorCartaCredito),
                                 formatador.format(valorFinanciado)),
+                            _buildDataRow(
+                                'Lance/Entrada',
+                                formatador.format(valorCartaCredito),
+                                formatador.format(valorFinanciado)),
                             _buildDataRow('Prazo', '$prazoConsorcio meses',
                                 '$prazoFinanciamento meses'),
                             _buildDataRow(
