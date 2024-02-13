@@ -47,8 +47,10 @@ class _TelaCalculadoraAposentadoriaState
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Sobre a Calculadora de Juros Compostos'),
-                  content: const Text(
-                      'Esta calculadora permite que você calcule o montante de um investimento, considerando a aplicação inicial, a aplicação mensal, a taxa de juros e o período.\n\nO valor apresentado não leva em consideração a cobrança de impostos.'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Esta calculadora permite que você calcule o montante de um investimento, considerando a aplicação inicial, a aplicação mensal, a taxa de juros e o período.\n\nO valor apresentado não leva em consideração a cobrança de impostos.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',

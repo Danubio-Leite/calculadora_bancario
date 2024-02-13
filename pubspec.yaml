@@ -1,5 +1,5 @@
 name: calculadora_bancario
-description: "A new Flutter project."
+description: "Conjuntos de ferramentas para cálculos financeiros."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -12,19 +12,22 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  auto_size_text:
-  mask_text_input_formatter: 
-  intl:
-  http: 
-  url_launcher: 
-  xml2json:
-  flutter_widget_to_image:
-  share_plus:
+  auto_size_text: ^3.0.0
+  mask_text_input_formatter: ^2.8.0 
+  intl: ^0.19.0
+  http: ^1.2.0 
+  url_launcher: ^6.2.4 
+  xml2json: 
+  flutter_widget_to_image: ^0.0.1
+  share_plus: ^7.2.2
   google_mobile_ads: ^4.0.0
   loading_animation_widget: ^1.2.0+4
   google_fonts: ^6.1.0
-  firebase_core:
-  flutter_masked_text2:
+  firebase_core: ^2.25.4
+  flutter_masked_text2: ^0.9.1
+  flutter_native_splash: 
+  flutter_launcher_icons: 
+  flutter_app_name: 
   
 dev_dependencies:
   flutter_test:
@@ -32,6 +35,21 @@ dev_dependencies:
 
 
   flutter_lints: ^2.0.0
+
+flutter_native_splash:
+  color: "#9FB9E3"
+  image: assets/images/splash.png
+  android: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
+
+flutter_app_name: 
+  name: "Calculadora do Bancário"
+  
+
 
 
 

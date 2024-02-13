@@ -2,12 +2,10 @@ import 'package:calculadora_bancario/components/anuncio.dart';
 import 'package:calculadora_bancario/components/custom_appbar.dart';
 import 'package:calculadora_bancario/pages/telas_consorcio_financiamento/tela_consorcio_financiamento.dart';
 import 'package:flutter/material.dart';
-
 import '../components/custom_home_button.dart';
 import 'tela_cdc.dart';
 import 'telas_price_sac/tela_price_sac.dart';
 import 'telas_comparador_investimentos.dart/tela_comparador_investimentos.dart';
-import 'telas_consorcio_investimento/tela_consorcio_investimento.dart';
 import 'tela_juros_compostos_invest.dart';
 import 'tela_indices_economicos.dart';
 import 'tela_regra_de_tres.dart';

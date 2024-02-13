@@ -40,7 +40,7 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculadora de Empréstimo'),
+        title: const Text('Calculadora CDC'),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
@@ -48,9 +48,11 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Sobre a Calculadora de Empréstimo'),
-                  content: const Text(
-                      'Esta calculadora permite que você calcule o valor da parcela de um empréstimo, considerando o valor do empréstimo, seguros e taxas, a taxa de juros mensal e o prazo em meses.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  title: const Text('Sobre a Calculadora CDC'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Esta calculadora permite que você calcule o valor da parcela de um empréstimo, considerando seu valor, seguros/taxas, a taxa de juros mensal e o prazo em meses.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',

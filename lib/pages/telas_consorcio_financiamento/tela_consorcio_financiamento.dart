@@ -92,8 +92,10 @@ class _TelaFinanciamentoXConsorcioState
                 builder: (context) => AlertDialog(
                   title: const Text(
                       'Sobre o Comparador de Financiamento e Consórcio'),
-                  content: const Text(
-                      'Esta calculadora permite que você compare o custo total de um financiamento e de um consórcio, considerando o valor financiado, o prazo e a taxa de juros para o financiamento, e o valor da carta de crédito, o prazo e a taxa de administração para o consórcio.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Esta calculadora permite que você compare o custo total de um financiamento e de um consórcio, considerando o valor financiado, o prazo e a taxa de juros para o financiamento, e o valor da carta de crédito, o prazo e a taxa de administração para o consórcio.\n\nOs valores apresentados são aproximados e não levam em consideração impostos ou correções nos valores das parcelas.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',

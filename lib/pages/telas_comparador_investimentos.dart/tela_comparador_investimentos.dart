@@ -63,7 +63,7 @@ class _TelaComparadorInvestimentosState
                   title: const Text('Sobre o Comprador de Investimentos'),
                   content: const SingleChildScrollView(
                     child: Text(
-                        'Este comparador tem como objetivo disponibilizar uma tabela comparativa entre dois investimentos.'),
+                        'Este comparador tem como objetivo disponibilizar uma tabela comparativa entre dois investimentos.\n\n Os valores apresentados são aproximados, vão variar de acordo com a rentabilidade efetiva e não levam em consideração impostos, taxas e a inflação.'),
                   ),
                   actions: [
                     TextButton(

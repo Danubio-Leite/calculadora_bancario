@@ -4,7 +4,6 @@ import 'package:intl/intl.dart'; // Importa a biblioteca intl para formatar a da
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../components/custom_calc_button.dart';
 import '../../components/insert_field.dart';
-import '../../components/result_card.dart';
 import '../../utils/calc_utils.dart';
 import 'tela_tabela_price_sac.dart';
 
@@ -45,9 +44,11 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Sobre a Calculadora de Empréstimo SAC'),
-                  content: const Text(
-                      'Esta calculadora permite que você calcule o valor da parcela de um empréstimo pelo sistema SAC, considerando o valor do empréstimo, seguros e taxas, a taxa de juros mensal e o prazo em meses.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  title: const Text('Sobre o Comparador SAC x Price'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Esta calculadora permite que você calcule os valores de parcela e custo total de um financiamento utilizando os sistemas de amortização SAC e PRICE.\n\n Os valores apresentados são aproximados e podem variar de acordo com a instituição financeira e o contrato de financiamento.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',

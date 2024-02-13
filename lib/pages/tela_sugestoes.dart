@@ -56,6 +56,15 @@ class _TelaSugestaoState extends State<TelaSugestao> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                const Text(
+                  'Encontrou algum erro ou tem alguma sugestão de nova função? Envie para nós!',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
                 CustomInsertField(
                   label: 'Nome',
                   validator: (value) {

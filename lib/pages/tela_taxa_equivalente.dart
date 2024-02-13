@@ -42,8 +42,10 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Sobre a Calculadora de Taxa Equivalente'),
-                  content: const Text(
-                      'Esta calculadora permite que você calcule a taxa de juros equivalente, considerando a taxa de juros original, o período original e o período para cálculo.'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Esta calculadora permite que você calcule a taxa de juros equivalente, considerando a taxa de juros original, o período original e o período para cálculo.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',

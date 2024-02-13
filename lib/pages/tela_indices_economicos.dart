@@ -58,8 +58,10 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Sobre os Índices Econômicos'),
-                  content: const Text(
-                      'Esta tela apresenta os índices econômicos mais recentes, como o IPCA (Índice Nacional de Preços ao Consumidor Amplo), a Selic e o CDI (Certificado de Depósito Interbancário).\n\nOs dados são obtidos do Ipeadata e do Banco Central do Brasil. As informações são atualizadas mensalmente.'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Esta tela apresenta alguns índices econômicos, como o IPCA (Índice Nacional de Preços ao Consumidor Amplo), a Selic e o CDI (Certificado de Depósito Interbancário).\n\nOs dados são obtidos do Ipeadata e do Banco Central do Brasil. As informações são atualizadas mensalmente.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',
