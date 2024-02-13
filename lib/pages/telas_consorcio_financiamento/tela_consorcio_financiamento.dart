@@ -344,7 +344,7 @@ class _TelaFinanciamentoXConsorcioState
                       });
                     }
                   },
-                  texto: 'Gerar comparação',
+                  texto: 'Gerar Tabela',
                 ),
               ],
             ),

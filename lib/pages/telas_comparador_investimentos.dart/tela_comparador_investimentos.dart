@@ -142,7 +142,7 @@ class _TelaComparadorInvestimentosState
                 ),
                 const SizedBox(height: 16),
                 CustomCalcButton(
-                  texto: 'Calcular',
+                  texto: 'Gerar Tabela',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Adicionado
