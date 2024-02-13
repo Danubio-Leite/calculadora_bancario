@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)
-            .copyWith(background: const Color.fromARGB(255, 235, 248, 251)),
+            .copyWith(background: const Color.fromARGB(255, 235, 239, 251)),
       ),
       home: const TelaInicial(),
     );

@@ -1,3 +1,4 @@
+import 'package:calculadora_bancario/components/custom_calc_button.dart';
 import 'package:calculadora_bancario/components/insert_field.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -15,13 +16,14 @@ class _TelaSugestaoState extends State<TelaSugestao> {
   String? nome;
   String? telefone;
   String? sugestao;
-  String? email; // Adicione esta linha
+  String? email;
 
   void _enviarSugestao() {
     final form = _formKey.currentState;
     if (form!.validate()) {
       form.save();
       _launchURL();
+      Navigator.pop(context);
     }
   }
 
@@ -52,6 +54,7 @@ class _TelaSugestaoState extends State<TelaSugestao> {
           child: Form(
             key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 CustomInsertField(
                   label: 'Nome',
@@ -88,7 +91,9 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                     if (value!.isEmpty) {
                       return 'Por favor, insira seu email';
                     }
-                    // Você pode adicionar mais validações aqui, como verificar se o valor contém um @
+                    if (!value.contains('@')) {
+                      return 'Por favor, insira um email válido';
+                    }
                     return null;
                   },
                   onSaved: (value) {
@@ -113,13 +118,11 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                 const SizedBox(
                   height: 16,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    _enviarSugestao();
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Enviar'),
-                ),
+                CustomCalcButton(
+                    texto: 'Enviar',
+                    onPressed: () {
+                      _enviarSugestao();
+                    }),
               ],
             ),
           ),
