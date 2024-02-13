@@ -1,5 +1,6 @@
 import 'package:calculadora_bancario/components/custom_calc_button.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../components/insert_field.dart';
 import 'tela_tabela_consorcio_investimento.dart';
 
@@ -127,32 +128,71 @@ class _TelaConsorcioInvestimentoState extends State<TelaConsorcioInvestimento> {
                 CustomCalcButton(
                     texto: 'Calcular',
                     onPressed: () {
-                      final valorCartaCredito = double.tryParse(
-                              valorCartaController.text.replaceAll(',', '.')) ??
-                          0;
-                      final prazoConsorcio =
-                          int.tryParse(prazoConsorcioController.text) ?? 0;
-                      final taxaMensalConsorcio = double.tryParse(
-                              rentabilidadeConsorcioController.text
-                                  .replaceAll(',', '.')) ??
-                          0;
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TelaTabelaConsorcioInvestimento(
-                            valorInvestimento:
-                                valorCartaCredito, // Substitua por seu valor de investimento
-                            prazoConsorcio: prazoConsorcio,
-                            prazoInvestimento:
-                                prazoConsorcio, // Substitua por seu prazo de investimento
-                            rendimentoMensalConsorcio: taxaMensalConsorcio,
-                            rendimentoMensalInvestimento: taxaMensalConsorcio,
-                            valorCartaCredito:
-                                valorCartaCredito, // Substitua por seu rendimento mensal de investimento
-                          ),
-                        ),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child:
+                                      LoadingAnimationWidget.staggeredDotsWave(
+                                    color:
+                                        const Color.fromARGB(255, 0, 96, 164),
+                                    size: 60,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    "Configurando Tabela",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 0, 96, 164),
+                                    ),
+                                  ), // O texto
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       );
+
+                      Future.delayed(const Duration(milliseconds: 1500), () {
+                        Navigator.of(context).pop();
+
+                        final valorCartaCredito = double.tryParse(
+                                valorCartaController.text
+                                    .replaceAll(',', '.')) ??
+                            0;
+                        final prazoConsorcio =
+                            int.tryParse(prazoConsorcioController.text) ?? 0;
+                        final taxaMensalConsorcio = double.tryParse(
+                                rentabilidadeConsorcioController.text
+                                    .replaceAll(',', '.')) ??
+                            0;
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TelaTabelaConsorcioInvestimento(
+                              valorInvestimento:
+                                  valorCartaCredito, // Substitua por seu valor de investimento
+                              prazoConsorcio: prazoConsorcio,
+                              prazoInvestimento:
+                                  prazoConsorcio, // Substitua por seu prazo de investimento
+                              rendimentoMensalConsorcio: taxaMensalConsorcio,
+                              rendimentoMensalInvestimento: taxaMensalConsorcio,
+                              valorCartaCredito:
+                                  valorCartaCredito, // Substitua por seu rendimento mensal de investimento
+                            ),
+                          ),
+                        );
+                      });
                     })
               ],
             ),

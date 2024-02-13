@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../components/custom_calc_button.dart';
 import '../../components/insert_field.dart';
 import 'dart:math' as math;
@@ -18,17 +20,26 @@ class _TelaFinanciamentoXConsorcioState
   String dropdownValue = 'a.m.';
   final formatador = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
 
-  final valorFinanciadoController = TextEditingController();
-  final prazoFinanciamentoController = TextEditingController();
-  final parcelaFinanciamentoController = TextEditingController();
-  final taxaJurosController = TextEditingController();
-  final valorCartaCreditoController = TextEditingController();
+  final valorBemFinanciamentoController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final parcelaFinanciamentoController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final taxaJurosController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final valorCartaCreditoController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final parcelaConsorcioController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final taxaAdministracaoController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final lanceConsorcioController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final entradaController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   final prazoConsorcioController = TextEditingController();
-  final parcelaConsorcioController = TextEditingController();
-  final taxaAdministracaoController = TextEditingController();
-  final lanceConsorcioController = TextEditingController();
+  final prazoFinanciamentoController = TextEditingController();
 
-  double valorFinanciado = 0.0;
+  double valorBemFinanciamento = 0.0;
   int prazoFinanciamento = 0;
   double parcelaFinanciamento = 0.0;
   double taxaJuros = 0.0;
@@ -41,11 +52,12 @@ class _TelaFinanciamentoXConsorcioState
   double custoTotalFinanciamento = 0.0;
   double custoTotalConsorcio = 0.0;
   double lanceConsorcio = 0.0;
+  double entrada = 0.0;
 
   @override
   void dispose() {
     // Limppeza dos controllers quando o widget for descartado
-    valorFinanciadoController.dispose();
+    valorBemFinanciamentoController.dispose();
     prazoFinanciamentoController.dispose();
     parcelaFinanciamentoController.dispose();
     taxaJurosController.dispose();
@@ -54,8 +66,16 @@ class _TelaFinanciamentoXConsorcioState
     parcelaConsorcioController.dispose();
     taxaAdministracaoController.dispose();
     lanceConsorcioController.dispose();
+    entradaController.dispose();
 
     super.dispose();
+  }
+
+  String? validateInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, preencha este campo';
+    }
+    return null;
   }
 
   @override
@@ -72,8 +92,10 @@ class _TelaFinanciamentoXConsorcioState
                 builder: (context) => AlertDialog(
                   title: const Text(
                       'Sobre o Comparador de Financiamento e Consórcio'),
-                  content: const Text(
-                      'Esta calculadora permite que você compare o custo total de um financiamento e de um consórcio, considerando o valor financiado, o prazo e a taxa de juros para o financiamento, e o valor da carta de crédito, o prazo e a taxa de administração para o consórcio.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Esta calculadora permite que você compare o custo total de um financiamento e de um consórcio, considerando o valor financiado, o prazo e a taxa de juros para o financiamento, e o valor da carta de crédito, o prazo e a taxa de administração para o consórcio.\n\nOs valores apresentados são aproximados e não levam em consideração impostos ou correções nos valores das parcelas.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',
@@ -95,22 +117,23 @@ class _TelaFinanciamentoXConsorcioState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                const Center(
-                  child: Text('EM DESENVOLVIMENTO',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
                 const Text('Financiamento:', style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 6),
                 CustomInsertField(
-                  controller: valorFinanciadoController,
-                  label: 'Valor financiado',
+                  controller: valorBemFinanciamentoController,
+                  label: 'Valor do bem',
                   prefix: const Text('R\$ '),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput,
+                ),
+                const SizedBox(height: 16),
+                CustomInsertField(
+                  controller: entradaController,
+                  label: 'Entrada',
+                  keyboardType: TextInputType.number,
+                  prefix: const Text('R\$ '),
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -118,6 +141,7 @@ class _TelaFinanciamentoXConsorcioState
                   label: 'Prazo',
                   keyboardType: TextInputType.number,
                   suffix: const Text('meses'),
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -126,6 +150,7 @@ class _TelaFinanciamentoXConsorcioState
                   prefix: const Text('R\$ '),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -137,6 +162,7 @@ class _TelaFinanciamentoXConsorcioState
                             decimal: true),
                         suffix: const Text('%'),
                         label: 'Taxa de juros',
+                        validator: validateInput,
                       ),
                     ),
                     const SizedBox(
@@ -177,13 +203,7 @@ class _TelaFinanciamentoXConsorcioState
                   prefix: const Text('R\$ '),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 16),
-                CustomInsertField(
-                  controller: prazoConsorcioController,
-                  label: 'Prazo',
-                  keyboardType: TextInputType.number,
-                  suffix: const Text('meses'),
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -191,6 +211,15 @@ class _TelaFinanciamentoXConsorcioState
                   label: 'Valor do lance',
                   keyboardType: TextInputType.number,
                   prefix: const Text('R\$ '),
+                  validator: validateInput,
+                ),
+                const SizedBox(height: 16),
+                CustomInsertField(
+                  controller: prazoConsorcioController,
+                  label: 'Prazo após contemplação',
+                  keyboardType: TextInputType.number,
+                  suffix: const Text('meses'),
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -199,6 +228,7 @@ class _TelaFinanciamentoXConsorcioState
                   prefix: const Text('R\$ '),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -207,71 +237,114 @@ class _TelaFinanciamentoXConsorcioState
                   suffix: const Text('%'),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 CustomCalcButton(
                   onPressed: () {
-                    setState(() {
-                      valorFinanciado =
-                          double.tryParse(valorFinanciadoController.text) ??
-                              0.0;
-                      prazoFinanciamento =
-                          int.tryParse(prazoFinanciamentoController.text) ?? 0;
-                      parcelaFinanciamento = double.tryParse(
-                              parcelaFinanciamentoController.text) ??
-                          0.0;
-                      taxaJuros =
-                          double.tryParse(taxaJurosController.text) ?? 0.0;
-                      valorCartaCredito =
-                          double.tryParse(valorCartaCreditoController.text) ??
-                              0.0;
-                      prazoConsorcio =
-                          int.tryParse(prazoConsorcioController.text) ?? 0;
-                      parcelaConsorcio =
-                          double.tryParse(parcelaConsorcioController.text) ??
-                              0.0;
-                      lanceConsorcio =
-                          double.tryParse(lanceConsorcioController.text) ?? 0.0;
-                      taxaAdministracao =
-                          double.tryParse(taxaAdministracaoController.text) ??
-                              0.0;
-                      taxaMensalConsorcio = taxaAdministracao / prazoConsorcio;
-                      if (dropdownValue == 'a.m.') {
-                        taxaMensalfinanciamento = taxaJuros;
-                      } else {
-                        taxaMensalfinanciamento = taxaJuros / 12;
-                      }
-                      custoTotalConsorcio =
-                          parcelaConsorcio * prazoConsorcio - valorCartaCredito;
-                      double totalPagoConsorcio =
-                          (parcelaConsorcio * prazoConsorcio) + lanceConsorcio;
-                      custoTotalConsorcio =
-                          totalPagoConsorcio - valorCartaCredito;
-                      print('Parcela Consórcio: $parcelaConsorcio');
-                      print('Prazo Consórcio: $prazoConsorcio');
-                      print('Valor Carta Crédito: $valorCartaCredito');
-                      print('Custo Total Consórcio: $custoTotalConsorcio');
-                      print('Total Consórcio: $totalPagoConsorcio');
-
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => TabelaConsorcioFinanciamento(
-                            valorCartaCredito: valorCartaCredito,
-                            valorFinanciado: valorFinanciado,
-                            prazoConsorcio: prazoConsorcio,
-                            prazoFinanciamento: prazoFinanciamento,
-                            taxaMensalConsorcio: taxaMensalConsorcio,
-                            taxaMensalfinanciamento: taxaMensalfinanciamento,
-                            parcelaConsorcio: parcelaConsorcio,
-                            parcelaFinanciamento: parcelaFinanciamento,
-                            custoTotalConsorcio: custoTotalConsorcio,
-                            custoTotalFinanciamento: custoTotalFinanciamento,
-                          ),
-                        ),
+                    if (_formKey.currentState!.validate()) {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child:
+                                      LoadingAnimationWidget.staggeredDotsWave(
+                                    color:
+                                        const Color.fromARGB(255, 0, 96, 164),
+                                    size: 60,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    "Configurando Tabela",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 0, 96, 164),
+                                    ),
+                                  ), // O texto
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       );
-                    });
+                      Future.delayed(const Duration(milliseconds: 1500), () {
+                        Navigator.of(context).pop();
+
+                        setState(() {
+                          valorBemFinanciamento =
+                              valorBemFinanciamentoController.numberValue;
+                          prazoFinanciamento =
+                              int.tryParse(prazoFinanciamentoController.text) ??
+                                  0;
+                          parcelaFinanciamento =
+                              parcelaFinanciamentoController.numberValue;
+                          taxaJuros = taxaJurosController.numberValue;
+                          valorCartaCredito =
+                              valorCartaCreditoController.numberValue;
+                          prazoConsorcio =
+                              int.tryParse(prazoConsorcioController.text) ?? 0;
+                          parcelaConsorcio =
+                              parcelaConsorcioController.numberValue;
+                          lanceConsorcio = lanceConsorcioController.numberValue;
+                          taxaAdministracao =
+                              taxaAdministracaoController.numberValue;
+                          entrada = entradaController.numberValue;
+                          taxaMensalConsorcio =
+                              taxaAdministracao / prazoConsorcio;
+                          if (dropdownValue == 'a.m.') {
+                            taxaMensalfinanciamento = taxaJuros;
+                          } else {
+                            taxaMensalfinanciamento = taxaJuros / 12;
+                          }
+
+                          double totalPagoConsorcio =
+                              parcelaConsorcio * prazoConsorcio +
+                                  lanceConsorcio;
+                          double totalPagoFinanciamento =
+                              parcelaFinanciamento * prazoFinanciamento +
+                                  entrada;
+
+                          custoTotalFinanciamento =
+                              totalPagoFinanciamento - valorBemFinanciamento;
+                          custoTotalConsorcio =
+                              totalPagoConsorcio - valorCartaCredito;
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  TabelaConsorcioFinanciamento(
+                                valorCartaCredito: valorCartaCredito,
+                                valorFinanciado: valorBemFinanciamento,
+                                prazoConsorcio: prazoConsorcio,
+                                prazoFinanciamento: prazoFinanciamento,
+                                taxaMensalConsorcio: taxaMensalConsorcio,
+                                taxaMensalfinanciamento:
+                                    taxaMensalfinanciamento,
+                                parcelaConsorcio: parcelaConsorcio,
+                                parcelaFinanciamento: parcelaFinanciamento,
+                                custoTotalConsorcio: custoTotalConsorcio,
+                                custoTotalFinanciamento:
+                                    custoTotalFinanciamento,
+                                valorLance: lanceConsorcio,
+                                valorEntrada: entrada,
+                                totalPagoConsorcio: totalPagoConsorcio,
+                                totalPagoFinanciamento: totalPagoFinanciamento,
+                              ),
+                            ),
+                          );
+                        });
+                      });
+                    }
                   },
-                  texto: 'Gerar comparação',
+                  texto: 'Gerar Tabela',
                 ),
               ],
             ),

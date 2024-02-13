@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final String title2;
+  String? title2;
   final String imagePath;
 
-  CustomAppBar(
-      {required this.title, required this.imagePath, required this.title2});
+  CustomAppBar({required this.title, required this.imagePath, this.title2});
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight * 2);
@@ -48,16 +47,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     title,
                     style: const TextStyle(
                       fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ), // tamanho do texto
                   ),
-                  const SizedBox(
-                      height: 8), // adiciona espaço entre os dois títulos
-                  Text(
-                    title2,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold), // tamanho do texto
-                  ),
+                  if (title2 != null) const SizedBox(height: 8),
+                  if (title2 != null) // adiciona espaço entre os dois títulos
+                    Text(
+                      title2!,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold), // tamanho do texto
+                    ),
                 ],
               ),
               Image.asset(

@@ -15,6 +15,7 @@ class CustomCalcButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 139, 170, 216),
         padding: const EdgeInsets.symmetric(vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -23,9 +24,9 @@ class CustomCalcButton extends StatelessWidget {
       child: Text(
         texto,
         style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 53, 53, 53)),
       ),
     );
   }

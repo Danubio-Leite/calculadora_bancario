@@ -30,8 +30,10 @@ class _TelaRegraDeTresState extends State<TelaRegraDeTres> {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Sobre a Calculadora de Regra de Três'),
-                  content: const Text(
-                      'Ferramenta matemática utilizada para encontrar um valor desconhecido com base em proporções conhecidas.'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                        'Ferramenta matemática utilizada para encontrar um valor desconhecido com base em proporções conhecidas.'),
+                  ),
                   actions: [
                     TextButton(
                       child: const Text('OK',
