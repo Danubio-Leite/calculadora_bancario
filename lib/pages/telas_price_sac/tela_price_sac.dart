@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart'; // Importa a biblioteca intl para formatar a data
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../components/custom_calc_button.dart';
@@ -14,15 +15,23 @@ class TelaPriceSac extends StatefulWidget {
 
 class _TelaPriceSacState extends State<TelaPriceSac> {
   final formatador = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
-  double valorEmprestimo = 0;
+  final valorEmprestimoController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final valorSegurosETaxasController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final taxaJurosController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final prazoMesesController = TextEditingController();
   String _tipoDeTaxaSelecionada = 'a.m.';
-  double taxaJuros = 0;
-  int prazoMeses = 0;
-  double pagamentoMensal = 0;
-  DateTime? dataPrimeiraParcela;
-  double valorSegurosETaxas = 0;
 
   final _formKey = GlobalKey<FormState>(); // Adicionado
+
+  String? validateInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, preencha este campo';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,68 +65,38 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-            // Adicionado
-            key: _formKey, // Adicionado
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CustomInsertField(
+                  controller: valorEmprestimoController,
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   label: 'Valor Financiado',
                   prefix: const Text('R\$ '),
-                  onChanged: (value) {
-                    setState(() {
-                      valorEmprestimo = double.tryParse(value
-                              .replaceAll('.', ',')
-                              .replaceAll(',', '.')) ??
-                          0;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira um valor';
-                    }
-                    return null;
-                  },
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
+                  controller: valorSegurosETaxasController,
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   label: 'Seguros e Taxas (Se financiados)',
                   prefix: const Text('R\$ '),
-                  onChanged: (value) {
-                    setState(() {
-                      valorSegurosETaxas = double.tryParse(value
-                              .replaceAll('.', ',')
-                              .replaceAll(',', '.')) ??
-                          0;
-                    });
-                  },
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
                       child: CustomInsertField(
+                        controller: taxaJurosController,
                         keyboardType: const TextInputType.numberWithOptions(
                             decimal: true),
                         label: 'Taxa de Juros',
                         suffix: const Text('%'),
-                        onChanged: (value) {
-                          setState(() {
-                            taxaJuros =
-                                double.tryParse(value.replaceAll(',', '.')) ??
-                                    0;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira um valor';
-                          }
-                          return null;
-                        },
+                        validator: validateInput,
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -149,31 +128,28 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
+                  controller: prazoMesesController,
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   label: 'Prazo (em meses)',
-                  onChanged: (value) {
-                    setState(() {
-                      prazoMeses = int.tryParse(value) ?? 0;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira um valor';
-                    }
-                    return null;
-                  },
+                  validator: validateInput,
                 ),
                 const SizedBox(height: 24),
                 CustomCalcButton(
                   texto: 'Calcular',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Se todos os campos são válidos
+                      double valorEmprestimo =
+                          valorEmprestimoController.numberValue;
+                      double valorSegurosETaxas =
+                          valorSegurosETaxasController.numberValue;
+                      double taxaJuros = taxaJurosController.numberValue;
+                      int prazoMeses =
+                          int.tryParse(prazoMesesController.text) ?? 0;
+
                       showDialog(
                         context: context,
-                        barrierDismissible:
-                            false, // O usuário precisa esperar, não pode fechar o diálogo
+                        barrierDismissible: false,
                         builder: (BuildContext context) {
                           return AlertDialog(
                             content: Column(
@@ -182,7 +158,8 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
                                 Center(
                                   child:
                                       LoadingAnimationWidget.staggeredDotsWave(
-                                    color: Colors.black,
+                                    color:
+                                        const Color.fromARGB(255, 0, 96, 164),
                                     size: 60,
                                   ),
                                 ),
@@ -193,6 +170,7 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 0, 96, 164),
                                     ),
                                   ), // O texto
                                 ),
@@ -203,7 +181,7 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
                       );
 
                       Future.delayed(const Duration(milliseconds: 1500), () {
-                        Navigator.of(context).pop(); // Fecha o diálogo
+                        Navigator.of(context).pop();
 
                         // O restante do seu código
                         final valorParcelaPrice = CalculadoraPriceSimples()

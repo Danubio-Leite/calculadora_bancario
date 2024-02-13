@@ -82,7 +82,7 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                       cardColor: Colors.white,
                     ),
                     child: DataTable(
-                      columnSpacing: 30,
+                      columnSpacing: 15,
                       headingRowColor:
                           MaterialStateProperty.all(Colors.grey[200]),
                       columns: <DataColumn>[

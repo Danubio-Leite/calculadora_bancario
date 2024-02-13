@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import '../components/anuncio.dart';
 import '../helpers/indices_helper.dart';
 
 class TelaIndicesEconomicos extends StatefulWidget {
@@ -142,6 +143,10 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
                         }
                       },
                     ),
+                  ),
+                  const SizedBox(
+                    height: 72.0,
+                    child: MeuAnuncio(),
                   ),
                   const Row(
                     children: [

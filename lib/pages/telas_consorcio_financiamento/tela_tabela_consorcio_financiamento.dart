@@ -22,6 +22,10 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
   final double parcelaFinanciamento;
   final double custoTotalConsorcio;
   final double custoTotalFinanciamento;
+  final double valorLance;
+  final double valorEntrada;
+  final double totalPagoConsorcio;
+  final double totalPagoFinanciamento;
 
   TabelaConsorcioFinanciamento({
     Key? key,
@@ -35,6 +39,10 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
     required this.parcelaFinanciamento,
     required this.custoTotalConsorcio,
     required this.custoTotalFinanciamento,
+    required this.valorLance,
+    required this.valorEntrada,
+    required this.totalPagoConsorcio,
+    required this.totalPagoFinanciamento,
   }) : super(key: key);
 
   @override
@@ -88,8 +96,8 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                                 formatador.format(valorFinanciado)),
                             _buildDataRow(
                                 'Lance/Entrada',
-                                formatador.format(valorCartaCredito),
-                                formatador.format(valorFinanciado)),
+                                formatador.format(valorLance),
+                                formatador.format(valorEntrada)),
                             _buildDataRow('Prazo', '$prazoConsorcio meses',
                                 '$prazoFinanciamento meses'),
                             _buildDataRow(
@@ -101,6 +109,10 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                                 formatador.format(parcelaConsorcio),
                                 formatador.format(parcelaFinanciamento)),
                             _buildDataRow(
+                                'Total Pago',
+                                formatador.format(totalPagoConsorcio),
+                                formatador.format(totalPagoFinanciamento)),
+                            _buildDataRow(
                                 'Custo Total',
                                 formatador.format(custoTotalConsorcio),
                                 formatador.format(custoTotalFinanciamento))
@@ -108,6 +120,23 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          child: const Text(
+                            '*Parcela após contemplação.\n**Parcela, custo total e total pago desconsideram eventuais correções.',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 24,

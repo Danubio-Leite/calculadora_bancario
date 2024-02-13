@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import '../components/custom_calc_button.dart';
 import '../components/insert_field.dart';
 import '../components/result_card.dart';
@@ -15,10 +16,18 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
   final _formKey = GlobalKey<FormState>();
   String _periodoOriginalSelecionado = 'Meses';
   String _periodoCalculoSelecionado = 'Meses';
-  double taxaJuros = 0;
+  final taxaJurosController =
+      MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
+  final periodoOriginalController = TextEditingController();
+  final periodoCalculoController = TextEditingController();
   double taxaEquivalente = 0;
-  int periodoOriginal = 0;
-  int periodoCalculo = 0;
+
+  String? validateInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, preencha este campo';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,30 +63,23 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
             padding: const EdgeInsets.all(16.0),
             children: <Widget>[
               CustomInsertField(
+                controller: taxaJurosController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 label: 'Taxa de juros',
                 suffix: const Text('%'),
-                onChanged: (value) {
-                  setState(() {
-                    taxaJuros =
-                        double.tryParse(value.replaceAll(',', '.')) ?? 0;
-                  });
-                },
+                validator: validateInput,
               ),
               const SizedBox(height: 16),
               Row(
                 children: <Widget>[
                   Expanded(
                     child: CustomInsertField(
+                      controller: periodoOriginalController,
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),
                       label: 'Período original',
-                      onChanged: (value) {
-                        setState(() {
-                          periodoOriginal = int.tryParse(value) ?? 0;
-                        });
-                      },
+                      validator: validateInput,
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -89,14 +91,11 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
                 children: <Widget>[
                   Expanded(
                     child: CustomInsertField(
+                      controller: periodoCalculoController,
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),
                       label: 'Período para cálculo',
-                      onChanged: (value) {
-                        setState(() {
-                          periodoCalculo = int.tryParse(value) ?? 0;
-                        });
-                      },
+                      validator: validateInput,
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -107,21 +106,24 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
               CustomCalcButton(
                 texto: 'Calcular',
                 onPressed: () {
-                  setState(() {
-                    taxaEquivalente = calcularTaxaEquivalente(
-                      taxaJuros,
-                      periodoOriginal,
-                      _periodoOriginalSelecionado,
-                      periodoCalculo,
-                      _periodoCalculoSelecionado,
-                    );
-                  });
+                  if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      taxaEquivalente = calcularTaxaEquivalente(
+                        taxaJurosController.numberValue,
+                        int.tryParse(periodoOriginalController.text) ?? 0,
+                        _periodoOriginalSelecionado,
+                        int.tryParse(periodoCalculoController.text) ?? 0,
+                        _periodoCalculoSelecionado,
+                      );
+                    });
+                  }
                 },
               ),
+              const SizedBox(height: 16),
               if (taxaEquivalente != 0)
-                const ResultCard(
+                ResultCard(
                   titulo: 'Taxa equivalente',
-                  resultado: 'taxaEquivalente.toStringAsFixed(4)}%',
+                  resultado: '${taxaEquivalente.toStringAsFixed(4)}%',
                 ),
             ],
           )),

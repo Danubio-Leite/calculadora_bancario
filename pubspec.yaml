@@ -20,7 +20,11 @@ dependencies:
   xml2json:
   flutter_widget_to_image:
   share_plus:
+  google_mobile_ads: ^4.0.0
   loading_animation_widget: ^1.2.0+4
+  google_fonts: ^6.1.0
+  firebase_core:
+  flutter_masked_text2:
   
 dev_dependencies:
   flutter_test:

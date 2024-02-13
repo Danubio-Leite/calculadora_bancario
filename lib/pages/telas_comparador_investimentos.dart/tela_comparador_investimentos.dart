@@ -1,5 +1,7 @@
 import 'package:calculadora_bancario/components/custom_calc_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../components/insert_field.dart';
 import '../../utils/calc_utils.dart';
 import 'tela_tabela_comparador_investimentos.dart';
@@ -16,10 +18,23 @@ class _TelaComparadorInvestimentosState
     extends State<TelaComparadorInvestimentos> {
   final nomeInvestimentoController1 = TextEditingController();
   final nomeInvestimentoController2 = TextEditingController();
-  final rentabilidadeInvestimentoController1 = TextEditingController();
-  final rentabilidadeInvestimentoController2 = TextEditingController();
-  final aplicacaoInicialController = TextEditingController();
-  final aplicacaoMensalController = TextEditingController();
+  final rentabilidadeInvestimentoController1 =
+      MoneyMaskedTextController(decimalSeparator: ',');
+  final rentabilidadeInvestimentoController2 =
+      MoneyMaskedTextController(decimalSeparator: ',');
+  final aplicacaoInicialController =
+      MoneyMaskedTextController(decimalSeparator: ',');
+  final aplicacaoMensalController =
+      MoneyMaskedTextController(decimalSeparator: ',');
+
+  final _formKey = GlobalKey<FormState>(); // Adicionado
+
+  String? validateInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, preencha este campo';
+    }
+    return null;
+  }
 
   @override
   void dispose() {
@@ -67,6 +82,7 @@ class _TelaComparadorInvestimentosState
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
+            key: _formKey, // Adicionado
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -79,6 +95,7 @@ class _TelaComparadorInvestimentosState
                   prefix: const Text('R\$'),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput, // Adicionado
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -87,6 +104,7 @@ class _TelaComparadorInvestimentosState
                   prefix: const Text('R\$'),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput, // Adicionado
                 ),
                 const SizedBox(height: 6),
                 const Text('Investimento 01:', style: TextStyle(fontSize: 20)),
@@ -94,6 +112,7 @@ class _TelaComparadorInvestimentosState
                 CustomInsertField(
                   controller: nomeInvestimentoController1,
                   label: 'Nome do Investimento',
+                  validator: validateInput, // Adicionado
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -102,6 +121,7 @@ class _TelaComparadorInvestimentosState
                   suffix: const Text('%'),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput, // Adicionado
                 ),
                 const SizedBox(height: 6),
                 const Text('Investimento 02:', style: TextStyle(fontSize: 20)),
@@ -109,6 +129,7 @@ class _TelaComparadorInvestimentosState
                 CustomInsertField(
                   controller: nomeInvestimentoController2,
                   label: 'Nome do Investimento',
+                  validator: validateInput, // Adicionado
                 ),
                 const SizedBox(height: 16),
                 CustomInsertField(
@@ -117,217 +138,200 @@ class _TelaComparadorInvestimentosState
                   suffix: const Text('%'),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
+                  validator: validateInput, // Adicionado
                 ),
                 const SizedBox(height: 16),
                 CustomCalcButton(
                   texto: 'Calcular',
                   onPressed: () {
-                    final rentabilidadeInvestimento01 = double.tryParse(
-                            rentabilidadeInvestimentoController1.text
-                                .replaceAll(',', '.')) ??
-                        0;
-                    final rentabilidadeInvestimento02 = double.tryParse(
-                            rentabilidadeInvestimentoController2.text
-                                .replaceAll(',', '.')) ??
-                        0;
+                    if (_formKey.currentState!.validate()) {
+                      // Adicionado
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child:
+                                      LoadingAnimationWidget.staggeredDotsWave(
+                                    color:
+                                        const Color.fromARGB(255, 0, 96, 164),
+                                    size: 60,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    "Configurando Tabela",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 0, 96, 164),
+                                    ),
+                                  ), // O texto
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                      Future.delayed(const Duration(milliseconds: 1500), () {
+                        Navigator.of(context).pop();
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TelaTabelaComparadorInvestimentos(
-                          nomeInvestimento01: nomeInvestimentoController1.text,
-                          nomeInvestimento02: nomeInvestimentoController2.text,
-                          rentabilidadeInvestimento01:
-                              rentabilidadeInvestimento01,
-                          rentabilidadeInvestimento02:
-                              rentabilidadeInvestimento02,
-                          aplicacaoInicial01: double.tryParse(
-                                  aplicacaoInicialController.text
-                                      .replaceAll(',', '.')) ??
-                              0,
-                          aplicacaoInicial02: double.tryParse(
-                                  aplicacaoInicialController.text
-                                      .replaceAll(',', '.')) ??
-                              0,
-                          aplicacaoMensal01: double.tryParse(
-                                  aplicacaoMensalController.text
-                                      .replaceAll(',', '.')) ??
-                              0,
-                          aplicacaoMensal02: double.tryParse(
-                                  aplicacaoMensalController.text
-                                      .replaceAll(',', '.')) ??
-                              0,
-                          montante12Meses01:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento01,
-                            1,
-                            'a.a.',
-                            'Anos',
+                        final rentabilidadeInvestimento01 =
+                            rentabilidadeInvestimentoController1.numberValue;
+                        final rentabilidadeInvestimento02 =
+                            rentabilidadeInvestimentoController2.numberValue;
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TelaTabelaComparadorInvestimentos(
+                              nomeInvestimento01:
+                                  nomeInvestimentoController1.text,
+                              nomeInvestimento02:
+                                  nomeInvestimentoController2.text,
+                              rentabilidadeInvestimento01:
+                                  rentabilidadeInvestimento01,
+                              rentabilidadeInvestimento02:
+                                  rentabilidadeInvestimento02,
+                              aplicacaoInicial01:
+                                  aplicacaoInicialController.numberValue,
+                              aplicacaoInicial02:
+                                  aplicacaoInicialController.numberValue,
+                              aplicacaoMensal01:
+                                  aplicacaoMensalController.numberValue,
+                              aplicacaoMensal02:
+                                  aplicacaoMensalController.numberValue,
+                              montante12Meses01:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento01,
+                                1,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante12Meses02:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento02,
+                                1,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante02Anos01:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento01,
+                                2,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante02Anos02:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento02,
+                                2,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante05Anos01:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento01,
+                                5,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante05Anos02:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento02,
+                                5,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante10Anos01:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento01,
+                                10,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante10Anos02:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento02,
+                                10,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante20Anos01:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento01,
+                                20,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante20Anos02:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento02,
+                                20,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante30Anos01:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento01,
+                                30,
+                                'a.a.',
+                                'Anos',
+                              ),
+                              montante30Anos02:
+                                  CalculadoraJurosCompostosInvestimentos
+                                      .calcularMontante(
+                                aplicacaoInicialController.numberValue,
+                                aplicacaoMensalController.numberValue,
+                                rentabilidadeInvestimento02,
+                                30,
+                                'a.a.',
+                                'Anos',
+                              ),
+                            ),
                           ),
-                          montante12Meses02:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento02,
-                            1,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante02Anos01:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento01,
-                            2,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante02Anos02:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento02,
-                            2,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante05Anos01:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento01,
-                            5,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante05Anos02:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento02,
-                            5,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante10Anos01:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento01,
-                            10,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante10Anos02:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento02,
-                            10,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante20Anos01:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento01,
-                            20,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante20Anos02:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento02,
-                            20,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante30Anos01:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento01,
-                            30,
-                            'a.a.',
-                            'Anos',
-                          ),
-                          montante30Anos02:
-                              CalculadoraJurosCompostosInvestimentos
-                                  .calcularMontante(
-                            double.tryParse(aplicacaoInicialController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            double.tryParse(aplicacaoMensalController.text
-                                    .replaceAll(',', '.')) ??
-                                0,
-                            rentabilidadeInvestimento02,
-                            30,
-                            'a.a.',
-                            'Anos',
-                          ),
-                        ),
-                      ),
-                    );
+                        );
+                      });
+                    }
                   },
                 )
               ],
