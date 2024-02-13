@@ -8,12 +8,11 @@ class TelaSobreApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+      backgroundColor: Color.fromARGB(255, 178, 193, 218),
       appBar: AppBar(
         title: const Text(
           'Sobre o App',
         ),
-        backgroundColor: const Color.fromARGB(255, 240, 240, 240),
         elevation: 0,
       ),
       body: Padding(
@@ -21,53 +20,22 @@ class TelaSobreApp extends StatelessWidget {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
+              const Flexible(
                 flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Text(
-                      'Este aplicativo foi desenvolvido por Danúbio Leite para fins de estudo, qualquer uso prático é de responsabilidade do usuário.',
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Dúvidas ou sugestões? Pode mandar um email para danubioalves@gmail.com.',
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    ),
-                    const SizedBox(height: 20),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          const TextSpan(
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                              text:
-                                  'Quer conhecer outros projetos que estou desenvolvendo? Dá uma olhada no meu '),
-                          TextSpan(
-                            text: 'GitHub',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue,
-                                fontSize: 16),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                launchUrl(Uri.parse(
-                                    'https://github.com/Danubio-Leite'));
-                              },
-                          ),
-                          const TextSpan(
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                              text: '.'),
-                        ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'A calculadora do bancário é um conjunto de ferramentas desenvolvidas para ajudar nas negociações e análises do dia a dia.\n\nVocê pode, de forma simplificada, realizar alguns cálculos financeiros, bem como gerar tabelas comparativas úteis na abordagem de clientes.\n\nOs valores apresentados são aproximações e, em algumas ferramentas, o sistema faz cálculos com juros simples.\n\nSempre que julgar necessário, faça uso de uma calculadora financeira para aferir a acurácia das informações apresentadas.\n\nNo canto superior direito de cada ferramenta há um ícone através do qual são disponibilizadas informações relevantes para o uso e que devem ser levadas em consideração.\n\nAs informações compartilhadas com clientes são de responsabilidade do usuário.\n\nCaso tenha sugestões para novas ferramentas ou ajustes nas atuais, sinta-se à vontade para compartilhar conosco através do ícone "Sugestão de Nova Função" disponível na tela inicial.\n\nObrigado por baixar nosso app, faça bom uso!',
+                        style: TextStyle(color: Colors.black, fontSize: 14),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Flexible(
-                flex: 2,
+                flex: 1,
                 child: Image.asset(
                   'assets/images/blue.png',
                   height: 70,
