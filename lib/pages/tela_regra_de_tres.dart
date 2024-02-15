@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import '../components/insert_field.dart';
 import '../components/custom_calc_button.dart';
-import '../components/result_card.dart';
 
 class TelaRegraDeTres extends StatefulWidget {
   const TelaRegraDeTres({super.key});
 
   @override
-  _TelaRegraDeTresState createState() => _TelaRegraDeTresState();
+  TelaRegraDeTresState createState() => TelaRegraDeTresState();
 }
 
-class _TelaRegraDeTresState extends State<TelaRegraDeTres> {
+class TelaRegraDeTresState extends State<TelaRegraDeTres> {
   double valor1 = 0;
   double valor2 = 0;
   double valor3 = 0;
@@ -115,10 +114,12 @@ class _TelaRegraDeTresState extends State<TelaRegraDeTres> {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Row(
                       children: [
-                        const Text(
-                          'Assim como o Valor 3 está para: ',
-                          style: TextStyle(
-                            fontSize: 18,
+                        const Flexible(
+                          child: Text(
+                            'Assim como o Valor 3 está para: ',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                         Text(
@@ -134,9 +135,11 @@ class _TelaRegraDeTresState extends State<TelaRegraDeTres> {
                 if (resultado == 0)
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text(
-                      'Assim como o Valor 3 está para:',
-                      style: TextStyle(fontSize: 18),
+                    child: Flexible(
+                      child: Text(
+                        'Assim como o Valor 3 está para:',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ),
                 CustomCalcButton(
@@ -148,6 +151,9 @@ class _TelaRegraDeTresState extends State<TelaRegraDeTres> {
                       });
                     }
                   },
+                ),
+                const SizedBox(
+                  height: 140,
                 ),
               ],
             ),

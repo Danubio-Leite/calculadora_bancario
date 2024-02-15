@@ -346,6 +346,9 @@ class _TelaFinanciamentoXConsorcioState
                   },
                   texto: 'Gerar Tabela',
                 ),
+                const SizedBox(
+                  height: 140,
+                )
               ],
             ),
           ),

@@ -81,59 +81,75 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                       dividerColor: Colors.grey,
                       cardColor: Colors.white,
                     ),
-                    child: DataTable(
-                      columnSpacing: 15,
-                      headingRowColor:
-                          MaterialStateProperty.all(Colors.grey[200]),
-                      columns: <DataColumn>[
-                        const DataColumn(
-                          label: Text(''),
-                        ),
-                        DataColumn(
-                          label: Text(nomeInvestimento01),
-                        ),
-                        DataColumn(
-                          label: Text(nomeInvestimento02),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        _buildDataRow(
-                            'Aplicação Inicial',
-                            formatador.format(aplicacaoInicial01),
-                            formatador.format(aplicacaoInicial02)),
-                        _buildDataRow(
-                            'Aportes Mensais',
-                            formatador.format(aplicacaoMensal01),
-                            formatador.format(aplicacaoMensal02)),
-                        _buildDataRow(
-                            'Rentabilidade a.a.',
-                            '${rentabilidadeInvestimento01.toStringAsFixed(2)}%',
-                            '${rentabilidadeInvestimento02.toStringAsFixed(2)}%'),
-                        _buildDataRow(
-                            'Montante 12 meses',
-                            formatador.format(montante12Meses01),
-                            formatador.format(montante12Meses02)),
-                        _buildDataRow(
-                            'Montante 02 anos',
-                            formatador.format(montante02Anos01),
-                            formatador.format(montante02Anos02)),
-                        _buildDataRow(
-                            'Montante 05 anos',
-                            formatador.format(montante05Anos01),
-                            formatador.format(montante05Anos02)),
-                        _buildDataRow(
-                            'Montante 10 anos',
-                            formatador.format(montante10Anos01),
-                            formatador.format(montante10Anos02)),
-                        _buildDataRow(
-                            'Montante 20 anos',
-                            formatador.format(montante20Anos01),
-                            formatador.format(montante20Anos02)),
-                        _buildDataRow(
-                            'Montante 30 anos',
-                            formatador.format(montante30Anos01),
-                            formatador.format(montante30Anos02)),
-                      ],
+                    child: FittedBox(
+                      child: DataTable(
+                        columnSpacing: 15,
+                        headingRowColor:
+                            MaterialStateProperty.all(Colors.grey[200]),
+                        columns: <DataColumn>[
+                          const DataColumn(
+                            label: Text(''),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                                child: Text(
+                              nomeInvestimento01,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                nomeInvestimento02,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
+                        rows: <DataRow>[
+                          _buildDataRow(
+                              'Aplicação Inicial',
+                              formatador.format(aplicacaoInicial01),
+                              formatador.format(aplicacaoInicial02)),
+                          _buildDataRow(
+                              'Aportes Mensais',
+                              formatador.format(aplicacaoMensal01),
+                              formatador.format(aplicacaoMensal02)),
+                          _buildDataRow(
+                              'Rentabilidade a.a.',
+                              '${rentabilidadeInvestimento01.toStringAsFixed(2)}%',
+                              '${rentabilidadeInvestimento02.toStringAsFixed(2)}%'),
+                          _buildDataRow(
+                              'Montante 12 meses',
+                              formatador.format(montante12Meses01),
+                              formatador.format(montante12Meses02)),
+                          _buildDataRow(
+                              'Montante 02 anos',
+                              formatador.format(montante02Anos01),
+                              formatador.format(montante02Anos02)),
+                          _buildDataRow(
+                              'Montante 05 anos',
+                              formatador.format(montante05Anos01),
+                              formatador.format(montante05Anos02)),
+                          _buildDataRow(
+                              'Montante 10 anos',
+                              formatador.format(montante10Anos01),
+                              formatador.format(montante10Anos02)),
+                          _buildDataRow(
+                              'Montante 20 anos',
+                              formatador.format(montante20Anos01),
+                              formatador.format(montante20Anos02)),
+                          _buildDataRow(
+                              'Montante 30 anos',
+                              formatador.format(montante30Anos01),
+                              formatador.format(montante30Anos02)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -158,6 +174,9 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                 },
                 texto: 'Compartilhar',
               ),
+              const SizedBox(
+                height: 140,
+              )
             ],
           ),
         ),

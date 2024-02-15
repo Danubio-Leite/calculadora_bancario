@@ -194,6 +194,9 @@ class _TelaCalculadoraAposentadoriaState
                 titulo: 'Montante após o período:',
                 resultado: formatador.format(resultado),
               ),
+            const SizedBox(
+              height: 140,
+            )
           ],
         ),
       ),

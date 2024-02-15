@@ -185,6 +185,9 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
                     titulo: 'Pagamento Mensal',
                     resultado: formatador.format(pagamentoMensal),
                   ),
+                const SizedBox(
+                  height: 140,
+                )
               ],
             ),
           ),
