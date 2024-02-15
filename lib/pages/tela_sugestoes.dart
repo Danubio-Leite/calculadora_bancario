@@ -1,5 +1,6 @@
 import 'package:calculadora_bancario/components/custom_calc_button.dart';
 import 'package:calculadora_bancario/components/insert_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,18 +13,36 @@ class TelaSugestao extends StatefulWidget {
 }
 
 class _TelaSugestaoState extends State<TelaSugestao> {
+  final snackBar =
+      const SnackBar(content: Text('Recebemos sua sugestão. Obrigado!'));
   final _formKey = GlobalKey<FormState>();
   String? nome;
   String? telefone;
   String? sugestao;
   String? email;
 
-  void _enviarSugestao() {
+  // void _enviarSugestao() {
+  //   final form = _formKey.currentState;
+  //   if (form!.validate()) {
+  //     form.save();
+  //     _launchURL();
+  //     Navigator.pop(context);
+  //   }
+  // }
+  void _enviarSugestao() async {
     final form = _formKey.currentState;
     if (form!.validate()) {
       form.save();
-      _launchURL();
+      CollectionReference sugestoes =
+          FirebaseFirestore.instance.collection('sugestoes');
+      await sugestoes.add({
+        'nome': nome,
+        'telefone': telefone,
+        'email': email,
+        'sugestao': sugestao,
+      });
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -86,7 +105,7 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                     filter: {"#": RegExp(r'[0-9]')},
                   ),
                   keyboardType: TextInputType.phone,
-                  label: 'Telefone',
+                  label: 'Telefone (Opcional)',
                   onSaved: (value) {
                     telefone = value;
                   },
