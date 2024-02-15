@@ -74,49 +74,63 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                           dividerColor: Colors.grey,
                           cardColor: Colors.white,
                         ),
-                        child: DataTable(
-                          columnSpacing: constraints.maxWidth / 50,
-                          headingRowColor:
-                              MaterialStateProperty.all(Colors.grey[200]),
-                          columns: const <DataColumn>[
-                            DataColumn(
-                              label: Text(''),
-                            ),
-                            DataColumn(
-                              label: Text('Consórcio'),
-                            ),
-                            DataColumn(
-                              label: Text('Financiamento'),
-                            ),
-                          ],
-                          rows: <DataRow>[
-                            _buildDataRow(
-                                'Valor',
-                                formatador.format(valorCartaCredito),
-                                formatador.format(valorFinanciado)),
-                            _buildDataRow(
-                                'Lance/Entrada',
-                                formatador.format(valorLance),
-                                formatador.format(valorEntrada)),
-                            _buildDataRow('Prazo', '$prazoConsorcio meses',
-                                '$prazoFinanciamento meses'),
-                            _buildDataRow(
-                                'Taxa Mensal',
-                                '${taxaMensalConsorcio.toStringAsFixed(2)}%',
-                                '${taxaMensalfinanciamento.toStringAsFixed(2)}%'),
-                            _buildDataRow(
-                                'Parcela',
-                                formatador.format(parcelaConsorcio),
-                                formatador.format(parcelaFinanciamento)),
-                            _buildDataRow(
-                                'Total Pago',
-                                formatador.format(totalPagoConsorcio),
-                                formatador.format(totalPagoFinanciamento)),
-                            _buildDataRow(
-                                'Custo Total',
-                                formatador.format(custoTotalConsorcio),
-                                formatador.format(custoTotalFinanciamento))
-                          ],
+                        child: FittedBox(
+                          child: DataTable(
+                            columnSpacing: constraints.maxWidth / 50,
+                            headingRowColor:
+                                MaterialStateProperty.all(Colors.grey[200]),
+                            columns: const <DataColumn>[
+                              DataColumn(
+                                label: Text(''),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                    child: Text(
+                                  'Consórcio',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                    child: Text('Financiamento',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ))),
+                              ),
+                            ],
+                            rows: <DataRow>[
+                              _buildDataRow(
+                                  'Valor',
+                                  formatador.format(valorCartaCredito),
+                                  formatador.format(valorFinanciado)),
+                              _buildDataRow(
+                                  'Lance/Entrada',
+                                  formatador.format(valorLance),
+                                  formatador.format(valorEntrada)),
+                              _buildDataRow('Prazo', '$prazoConsorcio meses',
+                                  '$prazoFinanciamento meses'),
+                              _buildDataRow(
+                                  'Taxa Mensal',
+                                  '${taxaMensalConsorcio.toStringAsFixed(2)}%',
+                                  '${taxaMensalfinanciamento.toStringAsFixed(2)}%'),
+                              _buildDataRow(
+                                  'Parcela',
+                                  formatador.format(parcelaConsorcio),
+                                  formatador.format(parcelaFinanciamento)),
+                              _buildDataRow(
+                                  'Total Pago',
+                                  formatador.format(totalPagoConsorcio),
+                                  formatador.format(totalPagoFinanciamento)),
+                              _buildDataRow(
+                                  'Custo Total',
+                                  formatador.format(custoTotalConsorcio),
+                                  formatador.format(custoTotalFinanciamento))
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -160,6 +174,9 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                     },
                     texto: 'Compartilhar',
                   ),
+                  const SizedBox(
+                    height: 140,
+                  )
                 ],
               ),
             ),

@@ -127,6 +127,9 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
                   titulo: 'Taxa equivalente',
                   resultado: '${taxaEquivalente.toStringAsFixed(4)}%',
                 ),
+              const SizedBox(
+                height: 140,
+              )
             ],
           )),
     );

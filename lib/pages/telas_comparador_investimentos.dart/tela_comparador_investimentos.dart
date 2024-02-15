@@ -333,6 +333,9 @@ class _TelaComparadorInvestimentosState
                       });
                     }
                   },
+                ),
+                const SizedBox(
+                  height: 140,
                 )
               ],
             ),

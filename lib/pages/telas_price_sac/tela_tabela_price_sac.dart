@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
@@ -65,52 +66,76 @@ class TelaTabelaPriceSac extends StatelessWidget {
                       dividerColor: Colors.grey,
                       cardColor: Colors.white,
                     ),
-                    child: DataTable(
-                      columnSpacing: 30,
-                      headingRowColor:
-                          MaterialStateProperty.all(Colors.grey[200]),
-                      columns: const <DataColumn>[
-                        DataColumn(
-                          label: Text(''),
-                        ),
-                        DataColumn(
-                          label: Text('Price'),
-                        ),
-                        DataColumn(
-                          label: Text('SAC'),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        _buildDataRow(
-                            'Valor Financiado',
-                            formatador.format(valorFinanciado),
-                            formatador.format(valorFinanciado)),
-                        _buildDataRow(
-                            'Taxa de Juros',
-                            '${taxaJuros.toStringAsFixed(2)}% $tipoDeTaxa',
-                            '${taxaJuros.toStringAsFixed(2)}% $tipoDeTaxa'),
-                        _buildDataRow(
-                          'Prazo',
-                          prazoFinanciamento.toString(),
-                          prazoFinanciamento.toString(),
-                        ),
-                        _buildDataRow(
-                            'Parcela Inicial',
-                            formatador.format(valorParcelaInicialPrice),
-                            formatador.format(valorParcelaInicialSAC)),
-                        _buildDataRow(
-                            'Parcela Final',
-                            formatador.format(valorParcelaFinalPrice),
-                            formatador.format(valorParcelaFinalSAC)),
-                        _buildDataRow(
-                            'Total Pago',
-                            formatador.format(valorTotalPagoPrice),
-                            formatador.format(valorTotalPagoSAC)),
-                        _buildDataRow(
-                            'Total Juros',
-                            formatador.format(valorTotalJurosPrice),
-                            formatador.format(valorTotalJurosSAC)),
-                      ],
+                    child: FittedBox(
+                      child: DataTable(
+                        columnSpacing: 30,
+                        headingRowColor:
+                            MaterialStateProperty.all(Colors.grey[200]),
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Text(''),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                                child: Text(
+                              'Price',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'SAC',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                        rows: <DataRow>[
+                          _buildDataRow(
+                              context,
+                              'Valor Financiado',
+                              formatador.format(valorFinanciado),
+                              formatador.format(valorFinanciado)),
+                          _buildDataRow(
+                              context,
+                              'Taxa de Juros',
+                              '${taxaJuros.toStringAsFixed(2)}% $tipoDeTaxa',
+                              '${taxaJuros.toStringAsFixed(2)}% $tipoDeTaxa'),
+                          _buildDataRow(
+                            context,
+                            'Prazo',
+                            prazoFinanciamento.toString(),
+                            prazoFinanciamento.toString(),
+                          ),
+                          _buildDataRow(
+                              context,
+                              'Parcela Inicial',
+                              formatador.format(valorParcelaInicialPrice),
+                              formatador.format(valorParcelaInicialSAC)),
+                          _buildDataRow(
+                              context,
+                              'Parcela Final',
+                              formatador.format(valorParcelaFinalPrice),
+                              formatador.format(valorParcelaFinalSAC)),
+                          _buildDataRow(
+                              context,
+                              'Total Pago',
+                              formatador.format(valorTotalPagoPrice),
+                              formatador.format(valorTotalPagoSAC)),
+                          _buildDataRow(
+                              context,
+                              'Total Juros',
+                              formatador.format(valorTotalJurosPrice),
+                              formatador.format(valorTotalJurosSAC)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -135,6 +160,9 @@ class TelaTabelaPriceSac extends StatelessWidget {
                 },
                 texto: 'Compartilhar',
               ),
+              const SizedBox(
+                height: 140,
+              )
             ],
           ),
         ),
@@ -142,18 +170,18 @@ class TelaTabelaPriceSac extends StatelessWidget {
     );
   }
 
-  DataRow _buildDataRow(
-      String title, String investimento01Value, String investimento02Value) {
+  DataRow _buildDataRow(BuildContext context, String title,
+      String investimento01Value, String investimento02Value) {
     return DataRow(
       cells: <DataCell>[
-        _buildDataCell(title),
-        _buildDataCell(investimento01Value),
-        _buildDataCell(investimento02Value),
+        _buildDataCell(context, title),
+        _buildDataCell(context, investimento01Value),
+        _buildDataCell(context, investimento02Value),
       ],
     );
   }
 
-  DataCell _buildDataCell(String value) {
+  DataCell _buildDataCell(BuildContext context, String value) {
     return DataCell(
       ConstrainedBox(
         constraints: const BoxConstraints(
@@ -163,7 +191,9 @@ class TelaTabelaPriceSac extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Flexible(
-              child: Text(value),
+              child: Text(
+                value,
+              ),
             ),
           ],
         ),
