@@ -1,6 +1,8 @@
 import 'package:calculadora_bancario/components/custom_calc_button.dart';
 import 'package:calculadora_bancario/components/insert_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,33 +14,69 @@ class TelaSugestao extends StatefulWidget {
 }
 
 class _TelaSugestaoState extends State<TelaSugestao> {
+  final snackBar =
+      const SnackBar(content: Text('Recebemos sua sugestão. Obrigado!'));
   final _formKey = GlobalKey<FormState>();
   String? nome;
   String? telefone;
   String? sugestao;
   String? email;
 
-  void _enviarSugestao() {
+  void _enviarSugestao() async {
     final form = _formKey.currentState;
     if (form!.validate()) {
       form.save();
-      _launchURL();
-      Navigator.pop(context);
-    }
-  }
-
-  void _launchURL() async {
-    final Uri params = Uri(
-      scheme: 'mailto',
-      path: 'danubioalves@gmail.com',
-      query:
-          'subject=Sugestão de Nova Função&body=Nome: $nome\nTelefone: $telefone\nSugestão: $sugestao',
-    );
-
-    if (await canLaunch(params.toString())) {
-      await launch(params.toString());
-    } else {
-      throw 'Could not launch $params';
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                    color: const Color.fromARGB(255, 0, 96, 164),
+                    size: 60,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(
+                    "Enviando sugestão...",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 0, 96, 164),
+                    ),
+                  ), // O texto
+                ),
+              ],
+            ),
+          );
+        },
+      );
+      CollectionReference sugestoes =
+          FirebaseFirestore.instance.collection('sugestoes');
+      try {
+        await sugestoes.doc('${nome!} ${DateTime.now()}').set({
+          'nome': nome,
+          'telefone': telefone,
+          'email': email,
+          'sugestao': sugestao,
+        });
+        Future.delayed(const Duration(milliseconds: 500), () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
+      } catch (e) {
+        Navigator.pop(context);
+        const snackBarErro = SnackBar(
+            content: Text(
+                'Erro ao enviar sugestão. Verifique sua conexão com a internet.'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBarErro);
+      }
     }
   }
 
@@ -86,7 +124,7 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                     filter: {"#": RegExp(r'[0-9]')},
                   ),
                   keyboardType: TextInputType.phone,
-                  label: 'Telefone',
+                  label: 'Telefone (Opcional)',
                   onSaved: (value) {
                     telefone = value;
                   },

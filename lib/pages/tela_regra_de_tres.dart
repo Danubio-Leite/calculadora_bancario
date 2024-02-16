@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../components/insert_field.dart';
 import '../components/custom_calc_button.dart';
 
@@ -10,6 +11,7 @@ class TelaRegraDeTres extends StatefulWidget {
 }
 
 class TelaRegraDeTresState extends State<TelaRegraDeTres> {
+  final formatador = NumberFormat.currency(locale: 'pt_BR', symbol: '');
   double valor1 = 0;
   double valor2 = 0;
   double valor3 = 0;
@@ -112,34 +114,32 @@ class TelaRegraDeTresState extends State<TelaRegraDeTres> {
                 if (resultado > 0)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Row(
-                      children: [
-                        const Flexible(
-                          child: Text(
-                            'Assim como o Valor 3 está para: ',
+                    child: FittedBox(
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Assim como o Valor 3 está para:',
                             style: TextStyle(
                               fontSize: 18,
                             ),
                           ),
-                        ),
-                        Text(
-                          resultado.toStringAsFixed(2),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            formatador.format(resultado),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 if (resultado == 0)
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Flexible(
-                      child: Text(
-                        'Assim como o Valor 3 está para:',
-                        style: TextStyle(fontSize: 18),
-                      ),
+                    child: Text(
+                      'Assim como o Valor 3 está para:',
+                      style: TextStyle(fontSize: 18),
                     ),
                   ),
                 CustomCalcButton(

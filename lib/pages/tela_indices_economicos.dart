@@ -1,3 +1,4 @@
+import 'package:calculadora_bancario/models/indices_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -5,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../components/anuncio.dart';
+import '../helpers/database_helper.dart';
 import '../helpers/indices_helper.dart';
 
 class TelaIndicesEconomicos extends StatefulWidget {
@@ -21,6 +23,11 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
   IPCAHelper ipcaHelper = IPCAHelper();
   double selic = 0.0;
   SelicHelper selicHelper = SelicHelper();
+  String _ipcaOffline = '0,42';
+  String _selicOffline = '11,25';
+  String _cdiOffline = '11,15';
+  String _ipca12MesesOffline = '4,51';
+  String _dataDosIndicesOffline = '15/02/2024';
 
   @override
   void initState() {
@@ -35,11 +42,26 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
       selic = await selicHelper.buscarSelic();
       setState(() {
         ipcaSum = ipcaHelper.calcularIPCA(ipcaData);
+        _ipcaOffline = ipcaData.last['VALVALOR'].toString();
+        _selicOffline = '${(selic + 0.1).toStringAsFixed(2)}%';
+        _cdiOffline = '${selic.toStringAsFixed(2)}%';
+        _ipca12MesesOffline = '${ipcaSum.toStringAsFixed(2)}%';
+        _dataDosIndicesOffline =
+            DateFormat('dd/MM/yyyy', 'pt_BR').format(DateTime.now());
+
+        Indices indices = Indices(
+          ipcaOffline: _ipcaOffline,
+          selicOffline: _selicOffline,
+          cdiOffline: _cdiOffline,
+          ipca12MesesOffline: _ipca12MesesOffline,
+          dataDosIndicesOffline: _dataDosIndicesOffline,
+        );
+        DatabaseHelper.instance.insert(indices);
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Erro ao buscar dados: $e'),
+        const SnackBar(
+          content: Text('Erro ao buscar dados. Tente mais tarde.'),
         ),
       );
     }
