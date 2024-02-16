@@ -24,11 +24,11 @@ class _TelaIndicesEconomicosOfflineState
   void initState() {
     super.initState();
 
-    // Busque os dados do banco de dados SQLite
+    // Busca os dados do SQLite
     DatabaseHelper.instance.queryAllRows().then((value) {
       if (value.isNotEmpty) {
-        // Use os dados do banco de dados SQLite
-        Indices indices = Indices.fromMap(value.first);
+        // Uso dos do SQLite
+        Indices indices = Indices.fromMap(value.last);
         setState(() {
           ipcaOffline = indices.ipcaOffline;
           selicOffline = indices.selicOffline;

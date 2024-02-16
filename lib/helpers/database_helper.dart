@@ -46,6 +46,7 @@ class DatabaseHelper {
 
   Future<int> insert(Indices indices) async {
     Database db = await instance.database;
+    await db.delete(table);
     return await db.insert(table, indices.toMap());
   }
 

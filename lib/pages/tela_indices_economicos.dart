@@ -56,6 +56,8 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
           ipca12MesesOffline: _ipca12MesesOffline,
           dataDosIndicesOffline: _dataDosIndicesOffline,
         );
+
+        print(indices.toMap());
         DatabaseHelper.instance.insert(indices);
       });
     } catch (e) {
