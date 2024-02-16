@@ -57,7 +57,6 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
           dataDosIndicesOffline: _dataDosIndicesOffline,
         );
 
-        print(indices.toMap());
         DatabaseHelper.instance.insert(indices);
       });
     } catch (e) {
