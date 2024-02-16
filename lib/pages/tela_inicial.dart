@@ -1,9 +1,11 @@
 import 'package:calculadora_bancario/components/anuncio.dart';
 import 'package:calculadora_bancario/components/custom_appbar.dart';
 import 'package:calculadora_bancario/pages/telas_consorcio_financiamento/tela_consorcio_financiamento.dart';
+import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import '../components/custom_home_button.dart';
 import 'tela_cdc.dart';
+import 'tela_indices_offline.dart';
 import 'telas_price_sac/tela_price_sac.dart';
 import 'telas_comparador_investimentos.dart/tela_comparador_investimentos.dart';
 import 'tela_juros_compostos_invest.dart';
@@ -113,34 +115,44 @@ class TelaInicial extends StatelessWidget {
                 CustomHomeButton(
                   imagePath: 'assets/images/icons/accounting.png',
                   buttonText: 'Indicadores\n Econômicos',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TelaIndicesEconomicos()),
-                    );
+                  onPressed: () async {
+                    if (await ConnectivityWrapper.instance.isConnected) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const TelaIndicesEconomicos()),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const TelaIndicesEconomicosOffline()),
+                      );
+                    }
                   },
                 ),
-
-                // CustomHomeButton(
-                //   imagePath: 'assets/images/icons/profits.png',
-                //   buttonText: 'Consórcio como\n Investimento',
-                //   onPressed: null,
-                // ),
-                // CustomHomeButton(
-                //   imagePath: 'assets/images/icons/stats.png',
-                //   buttonText: 'Valor Presente\n Líquido',
-                //   onPressed: null,
-                // ),
                 CustomHomeButton(
                   imagePath: 'assets/images/icons/idea.png',
                   buttonText: 'Sugestão de\n Nova Função',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TelaSugestao()),
-                    );
+                  onPressed: () async {
+                    if (await ConnectivityWrapper.instance.isConnected) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TelaSugestao()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Color.fromARGB(255, 176, 49, 40),
+                          content: Text(
+                            'Essa função requer conexão com a internet.',
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
                 CustomHomeButton(

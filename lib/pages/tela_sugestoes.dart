@@ -22,14 +22,6 @@ class _TelaSugestaoState extends State<TelaSugestao> {
   String? sugestao;
   String? email;
 
-  // void _enviarSugestao() {
-  //   final form = _formKey.currentState;
-  //   if (form!.validate()) {
-  //     form.save();
-  //     _launchURL();
-  //     Navigator.pop(context);
-  //   }
-  // }
   void _enviarSugestao() async {
     final form = _formKey.currentState;
     if (form!.validate()) {
@@ -67,7 +59,7 @@ class _TelaSugestaoState extends State<TelaSugestao> {
       CollectionReference sugestoes =
           FirebaseFirestore.instance.collection('sugestoes');
       try {
-        await sugestoes.add({
+        await sugestoes.doc('${nome!} ${DateTime.now()}').set({
           'nome': nome,
           'telefone': telefone,
           'email': email,
@@ -85,21 +77,6 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                 'Erro ao enviar sugestão. Verifique sua conexão com a internet.'));
         ScaffoldMessenger.of(context).showSnackBar(snackBarErro);
       }
-    }
-  }
-
-  void _launchURL() async {
-    final Uri params = Uri(
-      scheme: 'mailto',
-      path: 'danubioalves@gmail.com',
-      query:
-          'subject=Sugestão de Nova Função&body=Nome: $nome\nTelefone: $telefone\nSugestão: $sugestao',
-    );
-
-    if (await canLaunch(params.toString())) {
-      await launch(params.toString());
-    } else {
-      throw 'Could not launch $params';
     }
   }
 

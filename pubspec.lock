@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  connectivity_wrapper:
+    dependency: "direct main"
+    description:
+      name: connectivity_wrapper
+      sha256: "435ec28987fac4313e220784d2d4f39c3619df026523b37ae3fab10604b22cb5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   convert:
     dependency: transitive
     description:
@@ -392,6 +400,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -480,6 +496,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.4"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      sha256: "59471e0a4595e264625d3496af567ac85bdae1148ec985aff1e0555786f53ecf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   share_plus:
     dependency: "direct main"
     description:
@@ -517,6 +541,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  sqflite:
+    dependency: "direct main"
+    description:
+      name: sqflite
+      sha256: a9016f495c927cb90557c909ff26a6d92d9bd54fc42ba92e19d4e79d61e798c6
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  sqflite_common:
+    dependency: transitive
+    description:
+      name: sqflite_common
+      sha256: "28d8c66baee4968519fb8bd6cdbedad982d6e53359091f0b74544a9f32ec72d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.3"
   stack_trace:
     dependency: transitive
     description:
@@ -541,6 +581,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  synchronized:
+    dependency: transitive
+    description:
+      name: synchronized
+      sha256: "539ef412b170d65ecdafd780f924e5be3f60032a1128df156adad6c5b373d558"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0+1"
   term_glyph:
     dependency: transitive
     description:

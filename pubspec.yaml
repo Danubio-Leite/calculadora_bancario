@@ -29,6 +29,9 @@ dependencies:
   flutter_native_splash: 
   flutter_launcher_icons: 
   flutter_app_name: 
+  connectivity_wrapper: ^1.0.6
+  provider: ^5.0.0
+  sqflite: ^2.0.0+4
   
 dev_dependencies:
   flutter_test:
