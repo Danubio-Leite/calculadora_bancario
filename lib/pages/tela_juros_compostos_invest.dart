@@ -38,7 +38,13 @@ class _TelaCalculadoraAposentadoriaState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Juros Compostos - Investimento'),
+        title: Text(
+          'Investimento - Juros Compostos',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.042,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),

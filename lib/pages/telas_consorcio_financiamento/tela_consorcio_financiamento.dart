@@ -82,7 +82,13 @@ class _TelaFinanciamentoXConsorcioState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Financiamento X Consórcio'),
+        title: Text(
+          'Financiamento | Consórcio',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),

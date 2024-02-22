@@ -40,7 +40,13 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculadora CDC'),
+        title: Text(
+          'Calculadora CDC',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),

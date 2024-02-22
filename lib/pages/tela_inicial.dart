@@ -47,13 +47,14 @@ class TelaInicial extends StatelessWidget {
                   },
                 ),
                 CustomHomeButton(
-                  imagePath: 'assets/images/icons/piggy-bank.png',
-                  buttonText: 'Juros Compostos\n Investimento',
+                  imagePath: 'assets/images/icons/profits.png',
+                  buttonText: 'Comparador de\n Investimentos',
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => TelaCalculadoraAposentadoria()),
+                          builder: (context) =>
+                              const TelaComparadorInvestimentos()),
                     );
                   },
                 ),
@@ -79,40 +80,6 @@ class TelaInicial extends StatelessWidget {
                   },
                 ),
                 CustomHomeButton(
-                  imagePath: 'assets/images/icons/profits.png',
-                  buttonText: 'Comparador de\n Investimentos',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const TelaComparadorInvestimentos()),
-                    );
-                  },
-                ),
-                CustomHomeButton(
-                  imagePath: 'assets/images/icons/budget.png',
-                  buttonText: 'Taxa\n Equivalente',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TelaTaxaEquivalente()),
-                    );
-                  },
-                ),
-                CustomHomeButton(
-                  imagePath: 'assets/images/icons/maths.png',
-                  buttonText: 'Regra de\n três',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TelaRegraDeTres()),
-                    );
-                  },
-                ),
-                CustomHomeButton(
                   imagePath: 'assets/images/icons/accounting.png',
                   buttonText: 'Indicadores\n Econômicos',
                   onPressed: () async {
@@ -131,6 +98,39 @@ class TelaInicial extends StatelessWidget {
                                 const TelaIndicesEconomicosOffline()),
                       );
                     }
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/budget.png',
+                  buttonText: 'Taxa\n Equivalente',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TelaTaxaEquivalente()),
+                    );
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/piggy-bank.png',
+                  buttonText: 'Juros Compostos\n Investimento',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TelaCalculadoraAposentadoria()),
+                    );
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/maths.png',
+                  buttonText: 'Regra de\n três',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TelaRegraDeTres()),
+                    );
                   },
                 ),
                 CustomHomeButton(

@@ -10,8 +10,12 @@ class TelaSobreApp extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 178, 193, 218),
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Sobre o App',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
         ),
         elevation: 0,
       ),

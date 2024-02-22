@@ -22,7 +22,13 @@ class TelaRegraDeTresState extends State<TelaRegraDeTres> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculadora de Regra de Três'),
+        title: Text(
+          'Regra de Três',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),

@@ -72,7 +72,13 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Índices Econômicos'),
+        title: Text(
+          'Índices Econômicos',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),

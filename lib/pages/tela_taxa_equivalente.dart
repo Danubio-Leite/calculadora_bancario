@@ -33,7 +33,13 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cálculo de Taxa Equivalente'),
+        title: Text(
+          'Taxa Equivalente',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
