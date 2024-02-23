@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../components/anuncio.dart';
+import '../components/ok_dialog_button.dart';
 import '../helpers/database_helper.dart';
 import '../helpers/indices_helper.dart';
 
@@ -85,18 +86,14 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sobre os Índices Econômicos'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title: Text('Sobre os Índices Econômicos'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Esta tela apresenta alguns índices econômicos, como o IPCA (Índice Nacional de Preços ao Consumidor Amplo), a Selic e o CDI (Certificado de Depósito Interbancário).\n\nOs dados são obtidos do Ipeadata e do Banco Central do Brasil. As informações são atualizadas mensalmente.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );
@@ -105,7 +102,7 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -150,14 +147,17 @@ class _TelaIndicesEconomicosState extends State<TelaIndicesEconomicos> {
                 },
               ),
             ),
-            const SizedBox(
-              height: 72.0,
-              child: MeuAnuncio(),
-            ),
             const Row(
               children: [
                 Text('Fonte: Ipeadata e Bacen'),
               ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 50.0,
+              child: MeuAnuncio(),
             ),
           ],
         ),

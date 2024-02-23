@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import '../components/custom_calc_button.dart';
 import '../components/insert_field.dart';
+import '../components/ok_dialog_button.dart';
 import '../components/result_card.dart';
 import '../utils/calc_utils.dart';
 
@@ -46,18 +47,14 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sobre a Calculadora de Taxa Equivalente'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title: Text('Sobre a Calculadora de Taxa Equivalente'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Esta calculadora permite que você calcule a taxa de juros equivalente, considerando a taxa de juros original, o período original e o período para cálculo.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );
@@ -80,6 +77,7 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
               ),
               const SizedBox(height: 16),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
                     child: CustomInsertField(
@@ -96,6 +94,7 @@ class _TelaTaxaEquivalenteState extends State<TelaTaxaEquivalente> {
               ),
               const SizedBox(height: 16),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
                     child: CustomInsertField(

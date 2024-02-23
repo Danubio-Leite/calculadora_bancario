@@ -6,6 +6,7 @@ import '../../components/custom_calc_button.dart';
 import '../../components/insert_field.dart';
 import 'dart:math' as math;
 
+import '../../components/ok_dialog_button.dart';
 import 'tela_tabela_consorcio_financiamento.dart';
 
 class TelaFinanciamentoXConsorcio extends StatefulWidget {
@@ -95,19 +96,15 @@ class _TelaFinanciamentoXConsorcioState
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text(
-                      'Sobre o Comparador de Financiamento e Consórcio'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title:
+                      Text('Sobre o Comparador de Financiamento e Consórcio'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Esta calculadora permite que você compare o custo total de um financiamento e de um consórcio, considerando o valor financiado, o prazo e a taxa de juros para o financiamento, e o valor da carta de crédito, o prazo e a taxa de administração para o consórcio.\n\nOs valores apresentados são aproximados e não levam em consideração impostos ou correções nos valores das parcelas.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );
@@ -160,6 +157,7 @@ class _TelaFinanciamentoXConsorcioState
                 ),
                 const SizedBox(height: 16),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
                       child: CustomInsertField(

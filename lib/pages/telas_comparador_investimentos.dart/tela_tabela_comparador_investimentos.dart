@@ -154,8 +154,22 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 24,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: const Text(
+                        '・Informe ao cliente que a rentabilidade obtida no passado não representa garantia de resultados futuros. Consulte as regras dos produtos na sua instituição',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               CustomCalcButton(
                 onPressed: () async {

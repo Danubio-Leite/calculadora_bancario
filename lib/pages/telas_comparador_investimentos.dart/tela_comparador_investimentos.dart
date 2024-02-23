@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../components/insert_field.dart';
+import '../../components/ok_dialog_button.dart';
 import '../../utils/calc_utils.dart';
 import 'tela_tabela_comparador_investimentos.dart';
 
@@ -65,18 +66,14 @@ class _TelaComparadorInvestimentosState
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sobre o Comprador de Investimentos'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title: Text('Sobre o Comprador de Investimentos'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Este comparador tem como objetivo disponibilizar uma tabela comparativa entre dois investimentos.\n\n Os valores apresentados são aproximados, vão variar de acordo com a rentabilidade efetiva e não levam em consideração impostos, taxas e a inflação.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );

@@ -140,9 +140,9 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: const Text(
-                            '*Parcela após contemplação.\n**Parcela, custo total e total pago desconsideram eventuais correções.',
+                            '・Parcela após contemplação.\n・Informe ao cliente que a parcela, custo total e total pago desconsideram eventuais correções. Consulte as regras do produto na sua instituição',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 12,

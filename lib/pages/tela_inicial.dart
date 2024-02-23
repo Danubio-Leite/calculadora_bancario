@@ -171,7 +171,7 @@ class TelaInicial extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             bottom: 0,
             child: const SizedBox(
-              height: 72.0,
+              height: 50.0,
               child: MeuAnuncio(),
             ),
           ),

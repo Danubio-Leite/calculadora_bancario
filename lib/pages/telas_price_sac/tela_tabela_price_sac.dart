@@ -140,8 +140,22 @@ class TelaTabelaPriceSac extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 24,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: const Text(
+                        '・Informe ao cliente que os valores apresentados são aproximações. Consulte as regras dos produtos na sua instituição',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               CustomCalcButton(
                 onPressed: () async {

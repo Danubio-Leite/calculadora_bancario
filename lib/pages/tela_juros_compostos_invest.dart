@@ -3,6 +3,7 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart';
 import '../components/custom_calc_button.dart';
 import '../components/insert_field.dart';
+import '../components/ok_dialog_button.dart';
 import '../components/result_card.dart';
 import '../utils/calc_utils.dart';
 
@@ -51,18 +52,14 @@ class _TelaCalculadoraAposentadoriaState
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sobre a Calculadora de Juros Compostos'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title: Text('Sobre a Calculadora de Juros Compostos'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Esta calculadora permite que você calcule o montante de um investimento, considerando a aplicação inicial, a aplicação mensal, a taxa de juros e o período.\n\nO valor apresentado não leva em consideração a cobrança de impostos.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );
@@ -94,6 +91,7 @@ class _TelaCalculadoraAposentadoriaState
             ),
             const SizedBox(height: 16),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
                   child: CustomInsertField(
@@ -133,6 +131,7 @@ class _TelaCalculadoraAposentadoriaState
             ),
             const SizedBox(height: 16),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
                   child: CustomInsertField(
