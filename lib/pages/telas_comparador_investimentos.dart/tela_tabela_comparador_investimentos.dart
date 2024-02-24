@@ -1,12 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../components/custom_calc_button.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../helpers/database_helper.dart';
+import '../../models/tabelas_salvas_model.dart';
+import '../../providers/simulacoes_salvas_provider.dart';
 
 class TelaTabelaComparadorInvestimentos extends StatelessWidget {
   final GlobalKey _globalKey = GlobalKey();
@@ -187,6 +194,63 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                   await Share.shareXFiles([XFile(file.path)]);
                 },
                 texto: 'Compartilhar',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              CustomCalcButton(
+                onPressed: () async {
+                  String? label;
+                  label = await showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      TextEditingController controller =
+                          TextEditingController();
+                      return AlertDialog(
+                        title: const Text('Digite a label da tabela'),
+                        content: TextField(
+                          controller: controller,
+                          onChanged: (value) {
+                            label = value;
+                          },
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop(label);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  if (label != null && label!.isNotEmpty) {
+                    RenderRepaintBoundary boundary = _globalKey.currentContext!
+                        .findRenderObject() as RenderRepaintBoundary;
+                    ui.Image image = await boundary.toImage();
+                    ByteData? byteData =
+                        await image.toByteData(format: ui.ImageByteFormat.png);
+                    Uint8List pngBytes = byteData!.buffer.asUint8List();
+                    int radomId = DateTime.now().millisecondsSinceEpoch;
+
+                    // Converte os bytes da imagem para uma string em base64
+                    String base64Image = base64Encode(pngBytes);
+
+                    var tabela = Tabela(
+                        caregoria: 'Investimentos',
+                        label: label!,
+                        imagem: base64Image,
+                        id: radomId);
+                    Provider.of<TabelaProvider>(context, listen: false)
+                        .addTabela(tabela);
+
+                    var dbService = DatabaseService();
+                    int id = await dbService.saveTabela(tabela);
+                  }
+                },
+                texto: 'Salvar',
               ),
               const SizedBox(
                 height: 140,

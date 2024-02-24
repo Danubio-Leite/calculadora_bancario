@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../components/custom_home_button.dart';
 import 'tela_cdc.dart';
 import 'tela_indices_offline.dart';
+import 'tela_simulacoes_salvas.dart';
 import 'telas_price_sac/tela_price_sac.dart';
 import 'telas_comparador_investimentos.dart/tela_comparador_investimentos.dart';
 import 'tela_juros_compostos_invest.dart';
@@ -130,6 +131,17 @@ class TelaInicial extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const TelaRegraDeTres()),
+                    );
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/folder.png',
+                  buttonText: 'Simulações\nSalvas',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TelaSimulacoesSalvas()),
                     );
                   },
                 ),
