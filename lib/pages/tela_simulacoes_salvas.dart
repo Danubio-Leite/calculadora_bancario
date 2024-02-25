@@ -48,7 +48,13 @@ class _TelaSimulacoesSalvasState extends State<TelaSimulacoesSalvas> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Minhas Simulações'),
+        title: Text(
+          'Minhas Simulações',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
       ),
       body: tabelasSalvas.isEmpty
           ? const Center(

@@ -68,7 +68,13 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comparador de Investimentos'),
+        title: Text(
+          'Comparador Investimentos',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

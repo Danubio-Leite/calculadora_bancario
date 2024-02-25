@@ -49,7 +49,13 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comparação'),
+        title: Text(
+          'Financiamento | Consórcio',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
