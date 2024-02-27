@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../components/custom_home_button.dart';
 import 'tela_cdc.dart';
 import 'tela_indices_offline.dart';
-import 'tela_simulacoes_salvas.dart';
+import 'telas_simulacoes_salvas/tela_simulacoes_salvas.dart';
 import 'telas_consorcio_consorcio/tela_consorcio_consorcio.dart';
 import 'telas_price_sac/tela_price_sac.dart';
 import 'telas_comparador_investimentos.dart/tela_comparador_investimentos.dart';
@@ -84,14 +84,7 @@ class TelaInicial extends StatelessWidget {
                 CustomHomeButton(
                   imagePath: 'assets/images/icons/car.png',
                   buttonText: 'Consórcio x\n Consórcio',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const TelaConsorcioXConsorcio()),
-                    );
-                  },
+                  onPressed: null,
                 ),
                 CustomHomeButton(
                   imagePath: 'assets/images/icons/accounting.png',

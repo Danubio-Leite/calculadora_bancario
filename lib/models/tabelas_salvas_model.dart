@@ -4,29 +4,35 @@ class Tabela {
   final int id;
   final String label;
   final String imagem;
-  final String caregoria;
+  final String categoria;
+  final String data;
 
-  Tabela(
-      {required this.label,
-      required this.imagem,
-      required this.id,
-      required this.caregoria});
+  Tabela({
+    required this.label,
+    required this.imagem,
+    required this.id,
+    required this.categoria,
+    required this.data,
+  });
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'label': label,
-      // Convertendo Uint8List para List<int> para armazenar no SQLite
       'imagem': imagem,
+      'categoria': categoria,
+      'data': data,
     };
   }
 
-  // Método adicional para criar um objeto Tabela a partir de um mapa
+  // Criar um objeto Tabela a partir do mapa
   static Tabela fromMap(Map<String, dynamic> map) {
     return Tabela(
-      label: map['label'],
-      imagem: map['imagem'],
-      id: map['id'],
-      caregoria: map['caregoria'],
+      label: map['label'] ?? '',
+      imagem: map['imagem'] ?? '',
+      id: map['id'] ?? DateTime.now().millisecondsSinceEpoch,
+      categoria: map['categoria'] ?? '',
+      data: map['data'] ?? '',
     );
   }
 }

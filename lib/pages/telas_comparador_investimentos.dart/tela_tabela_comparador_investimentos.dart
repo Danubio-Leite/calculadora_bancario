@@ -11,6 +11,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../components/custom_calc_button.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../components/dialog_salvar_tabela.dart';
 import '../../helpers/database_helper.dart';
 import '../../models/tabelas_salvas_model.dart';
 import '../../providers/simulacoes_salvas_provider.dart';
@@ -184,79 +185,84 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                   ),
                 ],
               ),
-              CustomCalcButton(
-                onPressed: () async {
-                  RenderRepaintBoundary boundary = _globalKey.currentContext!
-                      .findRenderObject() as RenderRepaintBoundary;
-                  ui.Image image = await boundary.toImage();
-                  ByteData? byteData =
-                      await image.toByteData(format: ui.ImageByteFormat.png);
-                  Uint8List pngBytes = byteData!.buffer.asUint8List();
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomCalcButton(
+                      onPressed: () async {
+                        String? label;
+                        label = await showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            TextEditingController controller =
+                                TextEditingController();
+                            //FocusNode com problema, provavelmente por conta do stateless
+                            // FocusNode focusNode = FocusNode();
+                            // WidgetsBinding.instance!.addPostFrameCallback((_) {
+                            //   FocusScope.of(context).requestFocus(focusNode);
+                            // });
 
-                  final tempDir = await getTemporaryDirectory();
-                  final file = await File('${tempDir.path}/image.png').create();
-                  await file.writeAsBytes(pngBytes);
-
-                  await Share.shareXFiles([XFile(file.path)]);
-                },
-                texto: 'Compartilhar',
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              CustomCalcButton(
-                onPressed: () async {
-                  String? label;
-                  label = await showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      TextEditingController controller =
-                          TextEditingController();
-                      return AlertDialog(
-                        title: const Text('Digite a label da tabela'),
-                        content: TextField(
-                          controller: controller,
-                          onChanged: (value) {
-                            label = value;
+                            return DialogSalvarSimulacao(
+                              controller: controller,
+                              label: label ?? DateTime.now().toString(),
+                            );
                           },
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop(label);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                        );
 
-                  if (label != null && label!.isNotEmpty) {
-                    RenderRepaintBoundary boundary = _globalKey.currentContext!
-                        .findRenderObject() as RenderRepaintBoundary;
-                    ui.Image image = await boundary.toImage();
-                    ByteData? byteData =
-                        await image.toByteData(format: ui.ImageByteFormat.png);
-                    Uint8List pngBytes = byteData!.buffer.asUint8List();
-                    int radomId = DateTime.now().millisecondsSinceEpoch;
+                        if (label != null && label!.isNotEmpty) {
+                          RenderRepaintBoundary boundary =
+                              _globalKey.currentContext!.findRenderObject()
+                                  as RenderRepaintBoundary;
+                          ui.Image image = await boundary.toImage();
+                          ByteData? byteData = await image.toByteData(
+                              format: ui.ImageByteFormat.png);
+                          Uint8List pngBytes = byteData!.buffer.asUint8List();
+                          int radomId = DateTime.now().millisecondsSinceEpoch;
 
-                    // Converte os bytes da imagem para uma string em base64
-                    String base64Image = base64Encode(pngBytes);
+                          // Converte os bytes da imagem para uma string em base64
+                          String base64Image = base64Encode(pngBytes);
 
-                    var tabela = Tabela(
-                        caregoria: 'Investimentos',
-                        label: label!,
-                        imagem: base64Image,
-                        id: radomId);
-                    Provider.of<TabelaProvider>(context, listen: false)
-                        .addTabela(tabela);
+                          var tabela = Tabela(
+                              data: DateTime.now().toString(),
+                              categoria: 'Investimentos',
+                              label: label!,
+                              imagem: base64Image,
+                              id: radomId);
+                          Provider.of<TabelaProvider>(context, listen: false)
+                              .addTabela(tabela);
 
-                    var dbService = DatabaseService();
-                    int id = await dbService.saveTabela(tabela);
-                  }
-                },
-                texto: 'Salvar',
+                          var dbService = DatabaseService.instance;
+                          int id = await dbService.saveTabela(tabela);
+                        }
+                      },
+                      texto: 'Salvar',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: CustomCalcButton(
+                      onPressed: () async {
+                        RenderRepaintBoundary boundary =
+                            _globalKey.currentContext!.findRenderObject()
+                                as RenderRepaintBoundary;
+                        ui.Image image = await boundary.toImage();
+                        ByteData? byteData = await image.toByteData(
+                            format: ui.ImageByteFormat.png);
+                        Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+                        final tempDir = await getTemporaryDirectory();
+                        final file =
+                            await File('${tempDir.path}/image.png').create();
+                        await file.writeAsBytes(pngBytes);
+
+                        await Share.shareXFiles([XFile(file.path)]);
+                      },
+                      texto: 'Compartilhar',
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 140,

@@ -10,6 +10,7 @@ class TelaSobreApp extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 178, 193, 218),
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: Text(
           'Sobre o App',
           style: TextStyle(
@@ -20,7 +21,7 @@ class TelaSobreApp extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

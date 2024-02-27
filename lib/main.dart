@@ -53,7 +53,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)
             .copyWith(background: const Color.fromARGB(255, 235, 239, 251)),
       ),
-      home: const TelaInicial(),
+      home: FutureBuilder(
+        future:
+            Provider.of<TabelaProvider>(context, listen: false).loadTabelas(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return const TelaInicial();
+          } else {
+            return const CircularProgressIndicator(); // Mostra um indicador de carregamento enquanto os dados estão sendo carregados
+          }
+        },
+      ),
     );
   }
 }

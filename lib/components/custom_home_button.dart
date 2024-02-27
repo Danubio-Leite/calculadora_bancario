@@ -65,12 +65,12 @@ class CustomHomeButton extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.red[600],
+                      color: Color.fromARGB(255, 227, 96, 94),
                     ),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     child: const Text(
-                      'Em desenvolvimento',
+                      'Em breve',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 10,

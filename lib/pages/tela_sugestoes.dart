@@ -130,7 +130,7 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                     filter: {"#": RegExp(r'[0-9]')},
                   ),
                   keyboardType: TextInputType.phone,
-                  label: 'Telefone (Opcional)',
+                  label: 'Whatsapp (Opcional)',
                   onSaved: (value) {
                     telefone = value;
                   },
@@ -157,6 +157,8 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                   height: 16,
                 ),
                 CustomInsertField(
+                  minLines: 1,
+                  maxLines: 5,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Por favor, insira sua sugestão';
