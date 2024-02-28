@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class ResultCard extends StatelessWidget {
   final String titulo;
   final String resultado;
+  String? observacao;
 
-  const ResultCard({
+  ResultCard({
     Key? key,
     required this.titulo,
     required this.resultado,
+    this.observacao,
   }) : super(key: key);
 
   @override
@@ -37,6 +39,13 @@ class ResultCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            if (observacao != null)
+              Text(
+                observacao ?? '',
+                style: const TextStyle(
+                  fontSize: 12,
+                ),
+              ),
           ],
         ),
       ),

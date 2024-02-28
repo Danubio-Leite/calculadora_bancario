@@ -3,6 +3,7 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart';
 import '../components/custom_calc_button.dart';
 import '../components/insert_field.dart';
+import '../components/ok_dialog_button.dart';
 import '../components/result_card.dart';
 import '../utils/calc_utils.dart';
 
@@ -40,25 +41,27 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculadora CDC'),
+        title: Text(
+          'Calculadora CDC',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sobre a Calculadora CDC'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title: Text('Sobre a Calculadora CDC'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Esta calculadora permite que você calcule o valor da parcela de um empréstimo, considerando seu valor, seguros/taxas, a taxa de juros mensal e o prazo em meses.\n\nO valor apresentado é aproximado e pode haver variações no momento da contratação.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );
@@ -109,38 +112,44 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
                   validator: validateInput,
                 ),
                 const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomInsertField(
-                        label: 'Data da Primeira Parcela',
-                        controller: TextEditingController(
-                          text: dataPrimeiraParcela != null
-                              ? DateFormat('dd/MM/yyyy')
-                                  .format(dataPrimeiraParcela!)
-                              : '',
+                GestureDetector(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CustomInsertField(
+                          label: 'Data da Primeira Parcela',
+                          controller: TextEditingController(
+                            text: dataPrimeiraParcela != null
+                                ? DateFormat('dd/MM/yyyy')
+                                    .format(dataPrimeiraParcela!)
+                                : '',
+                          ),
+                          enabled: false,
                         ),
-                        enabled: false,
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.calendar_today),
-                      onPressed: () async {
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate:
-                              DateTime.now().add(const Duration(days: 365 * 5)),
-                        );
-                        if (date != null) {
-                          setState(() {
-                            dataPrimeiraParcela = date;
-                          });
-                        }
-                      },
-                    ),
-                  ],
+                      const SizedBox(
+                          width:
+                              16), // Adiciona um espaço entre os campos (data e ícone
+                      const Icon(
+                        Icons.calendar_today,
+                        size: 24,
+                      ),
+                    ],
+                  ),
+                  onTap: () async {
+                    final date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate:
+                          DateTime.now().add(const Duration(days: 365 * 5)),
+                    );
+                    if (date != null) {
+                      setState(() {
+                        dataPrimeiraParcela = date;
+                      });
+                    }
+                  },
                 ),
                 const SizedBox(height: 24),
                 CustomCalcButton(
@@ -184,6 +193,8 @@ class _TelaCalculadoraEmprestimoState extends State<TelaCalculadoraEmprestimo> {
                   ResultCard(
                     titulo: 'Pagamento Mensal',
                     resultado: formatador.format(pagamentoMensal),
+                    observacao:
+                        'Valor aproximado, informe ao cliente que pode haver variações no momento da contratação.',
                   ),
                 const SizedBox(
                   height: 140,

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
@@ -7,6 +10,10 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import '../../components/custom_calc_button.dart';
+import '../../components/dialog_salvar_tabela.dart';
+import '../../helpers/database_helper.dart';
+import '../../models/tabelas_salvas_model.dart';
+import '../../providers/simulacoes_salvas_provider.dart';
 
 class TabelaConsorcioFinanciamento extends StatelessWidget {
   final GlobalKey _globalKey = GlobalKey();
@@ -49,7 +56,13 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comparação'),
+        title: Text(
+          'Financiamento | Consórcio',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -59,9 +72,6 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(
-                    height: 36,
-                  ),
                   RepaintBoundary(
                     key: _globalKey,
                     child: Container(
@@ -140,9 +150,9 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: const Text(
-                            '*Parcela após contemplação.\n**Parcela, custo total e total pago desconsideram eventuais correções.',
+                            '・Parcela após contemplação.\n・Informe ao cliente que a parcela, custo total e total pago desconsideram eventuais correções. Consulte as regras do produto na sua instituição',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 12,
@@ -152,27 +162,82 @@ class TabelaConsorcioFinanciamento extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  CustomCalcButton(
-                    onPressed: () async {
-                      RenderRepaintBoundary boundary =
-                          _globalKey.currentContext!.findRenderObject()
-                              as RenderRepaintBoundary;
-                      ui.Image image = await boundary.toImage();
-                      ByteData? byteData = await image.toByteData(
-                          format: ui.ImageByteFormat.png);
-                      Uint8List pngBytes = byteData!.buffer.asUint8List();
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomCalcButton(
+                          onPressed: () async {
+                            String? label;
+                            label = await showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                TextEditingController controller =
+                                    TextEditingController();
 
-                      final tempDir = await getTemporaryDirectory();
-                      final file =
-                          await File('${tempDir.path}/image.png').create();
-                      await file.writeAsBytes(pngBytes);
+                                return DialogSalvarSimulacao(
+                                  controller: controller,
+                                  label: label ?? DateTime.now().toString(),
+                                );
+                              },
+                            );
 
-                      await Share.shareXFiles([XFile(file.path)]);
-                    },
-                    texto: 'Compartilhar',
+                            if (label != null && label!.isNotEmpty) {
+                              RenderRepaintBoundary boundary =
+                                  _globalKey.currentContext!.findRenderObject()
+                                      as RenderRepaintBoundary;
+                              ui.Image image = await boundary.toImage();
+                              ByteData? byteData = await image.toByteData(
+                                  format: ui.ImageByteFormat.png);
+                              Uint8List pngBytes =
+                                  byteData!.buffer.asUint8List();
+                              int radomId =
+                                  DateTime.now().millisecondsSinceEpoch;
+
+                              // Converte os bytes da imagem para uma string em base64
+                              String base64Image = base64Encode(pngBytes);
+
+                              var tabela = Tabela(
+                                  data: DateTime.now().toString(),
+                                  categoria: 'Financiamento | Consórcio',
+                                  label: label!,
+                                  imagem: base64Image,
+                                  id: radomId);
+                              Provider.of<TabelaProvider>(context,
+                                      listen: false)
+                                  .addTabela(tabela);
+
+                              var dbService = DatabaseService.instance;
+                              int id = await dbService.saveTabela(tabela);
+                            }
+                          },
+                          texto: 'Salvar',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: CustomCalcButton(
+                          onPressed: () async {
+                            RenderRepaintBoundary boundary =
+                                _globalKey.currentContext!.findRenderObject()
+                                    as RenderRepaintBoundary;
+                            ui.Image image = await boundary.toImage();
+                            ByteData? byteData = await image.toByteData(
+                                format: ui.ImageByteFormat.png);
+                            Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+                            final tempDir = await getTemporaryDirectory();
+                            final file = await File('${tempDir.path}/image.png')
+                                .create();
+                            await file.writeAsBytes(pngBytes);
+
+                            await Share.shareXFiles([XFile(file.path)]);
+                          },
+                          texto: 'Compartilhar',
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 140,

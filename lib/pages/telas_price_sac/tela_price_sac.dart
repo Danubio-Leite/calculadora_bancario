@@ -4,6 +4,7 @@ import 'package:intl/intl.dart'; // Importa a biblioteca intl para formatar a da
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../components/custom_calc_button.dart';
 import '../../components/insert_field.dart';
+import '../../components/ok_dialog_button.dart';
 import '../../utils/calc_utils.dart';
 import 'tela_tabela_price_sac.dart';
 
@@ -36,25 +37,27 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comparador Sac x Price'),
+        title: Text(
+          'Sac | Price',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sobre o Comparador SAC x Price'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title: Text('Sobre o Comparador SAC x Price'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Esta calculadora permite que você calcule os valores de parcela e custo total de um financiamento utilizando os sistemas de amortização SAC e PRICE.\n\n Os valores apresentados são aproximados e podem variar de acordo com a instituição financeira e o contrato de financiamento.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );
@@ -89,6 +92,7 @@ class _TelaPriceSacState extends State<TelaPriceSac> {
                 ),
                 const SizedBox(height: 16),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: CustomInsertField(

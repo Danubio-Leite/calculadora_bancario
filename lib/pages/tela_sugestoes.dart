@@ -84,7 +84,13 @@ class _TelaSugestaoState extends State<TelaSugestao> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sugestão de Nova Função'),
+        title: Text(
+          'Sugestões',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -124,7 +130,7 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                     filter: {"#": RegExp(r'[0-9]')},
                   ),
                   keyboardType: TextInputType.phone,
-                  label: 'Telefone (Opcional)',
+                  label: 'Whatsapp (Opcional)',
                   onSaved: (value) {
                     telefone = value;
                   },
@@ -151,6 +157,8 @@ class _TelaSugestaoState extends State<TelaSugestao> {
                   height: 16,
                 ),
                 CustomInsertField(
+                  minLines: 1,
+                  maxLines: 5,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Por favor, insira sua sugestão';

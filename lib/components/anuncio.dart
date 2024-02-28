@@ -49,7 +49,7 @@ class _MeuAnuncioState extends State<MeuAnuncio> {
     return isAdLoaded
         ? SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 72.0,
+            height: 50.0,
             child: AdWidget(ad: _ad!),
           )
         : Container();

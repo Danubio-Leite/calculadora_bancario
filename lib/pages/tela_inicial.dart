@@ -3,9 +3,14 @@ import 'package:calculadora_bancario/components/custom_appbar.dart';
 import 'package:calculadora_bancario/pages/telas_consorcio_financiamento/tela_consorcio_financiamento.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
 import '../components/custom_home_button.dart';
+import '../providers/simulacoes_salvas_provider.dart';
 import 'tela_cdc.dart';
 import 'tela_indices_offline.dart';
+import 'telas_simulacoes_salvas/tela_simulacoes_salvas.dart';
+import 'telas_consorcio_consorcio/tela_consorcio_consorcio.dart';
 import 'telas_price_sac/tela_price_sac.dart';
 import 'telas_comparador_investimentos.dart/tela_comparador_investimentos.dart';
 import 'tela_juros_compostos_invest.dart';
@@ -47,13 +52,14 @@ class TelaInicial extends StatelessWidget {
                   },
                 ),
                 CustomHomeButton(
-                  imagePath: 'assets/images/icons/piggy-bank.png',
-                  buttonText: 'Juros Compostos\n Investimento',
+                  imagePath: 'assets/images/icons/profits.png',
+                  buttonText: 'Comparador de\n Investimentos',
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => TelaCalculadoraAposentadoria()),
+                          builder: (context) =>
+                              const TelaComparadorInvestimentos()),
                     );
                   },
                 ),
@@ -79,38 +85,9 @@ class TelaInicial extends StatelessWidget {
                   },
                 ),
                 CustomHomeButton(
-                  imagePath: 'assets/images/icons/profits.png',
-                  buttonText: 'Comparador de\n Investimentos',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const TelaComparadorInvestimentos()),
-                    );
-                  },
-                ),
-                CustomHomeButton(
-                  imagePath: 'assets/images/icons/budget.png',
-                  buttonText: 'Taxa\n Equivalente',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TelaTaxaEquivalente()),
-                    );
-                  },
-                ),
-                CustomHomeButton(
-                  imagePath: 'assets/images/icons/maths.png',
-                  buttonText: 'Regra de\n três',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TelaRegraDeTres()),
-                    );
-                  },
+                  imagePath: 'assets/images/icons/car.png',
+                  buttonText: 'Consórcio x\n Consórcio',
+                  onPressed: null,
                 ),
                 CustomHomeButton(
                   imagePath: 'assets/images/icons/accounting.png',
@@ -131,6 +108,95 @@ class TelaInicial extends StatelessWidget {
                                 const TelaIndicesEconomicosOffline()),
                       );
                     }
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/budget.png',
+                  buttonText: 'Taxa\n Equivalente',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TelaTaxaEquivalente()),
+                    );
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/piggy-bank.png',
+                  buttonText: 'Juros Compostos\n Investimento',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TelaCalculadoraAposentadoria()),
+                    );
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/maths.png',
+                  buttonText: 'Regra de\n três',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TelaRegraDeTres()),
+                    );
+                  },
+                ),
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/folder.png',
+                  buttonText: 'Simulações\nSalvas',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FutureBuilder(
+                          future: Future.delayed(
+                            const Duration(
+                                milliseconds: 1200), // Atraso de 2 segundos
+                            () => Provider.of<TabelaProvider>(context,
+                                    listen: false)
+                                .loadTabelas(),
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return const TelaSimulacoesSalvas();
+                            } else {
+                              return Scaffold(
+                                body: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Center(
+                                        child: LoadingAnimationWidget
+                                            .staggeredDotsWave(
+                                          color: const Color.fromARGB(
+                                              255, 0, 96, 164),
+                                          size: 60,
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          "Carregando Tabelas",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Color.fromARGB(255, 0, 96, 164),
+                                          ),
+                                        ), // O texto
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    );
                   },
                 ),
                 CustomHomeButton(
@@ -171,7 +237,7 @@ class TelaInicial extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             bottom: 0,
             child: const SizedBox(
-              height: 72.0,
+              height: 50.0,
               child: MeuAnuncio(),
             ),
           ),

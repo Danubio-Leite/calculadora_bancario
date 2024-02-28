@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../components/insert_field.dart';
 import '../components/custom_calc_button.dart';
+import '../components/ok_dialog_button.dart';
 
 class TelaRegraDeTres extends StatefulWidget {
   const TelaRegraDeTres({super.key});
@@ -22,25 +23,27 @@ class TelaRegraDeTresState extends State<TelaRegraDeTres> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculadora de Regra de Três'),
+        title: Text(
+          'Regra de Três',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.05,
+          ),
+          overflow: TextOverflow.fade,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sobre a Calculadora de Regra de Três'),
-                  content: const SingleChildScrollView(
+                builder: (context) => const AlertDialog(
+                  title: Text('Sobre a Calculadora de Regra de Três'),
+                  content: SingleChildScrollView(
                     child: Text(
                         'Ferramenta matemática utilizada para encontrar um valor desconhecido com base em proporções conhecidas.'),
                   ),
                   actions: [
-                    TextButton(
-                      child: const Text('OK',
-                          style: TextStyle(color: Colors.black)),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    OkButton(),
                   ],
                 ),
               );

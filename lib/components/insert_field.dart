@@ -12,6 +12,8 @@ class CustomInsertField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final TextInputType keyboardType;
+  final int? minLines;
+  final int? maxLines;
 
   const CustomInsertField({
     Key? key,
@@ -25,11 +27,15 @@ class CustomInsertField extends StatelessWidget {
     this.validator,
     this.onSaved,
     this.keyboardType = TextInputType.text,
+    this.minLines,
+    this.maxLines,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
+      minLines: minLines,
       onSaved: onSaved,
       validator: validator,
       controller: controller,
