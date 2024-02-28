@@ -63,8 +63,11 @@ class CustomHomeButton extends StatelessWidget {
                   right: 0.0,
                   top: 0.0,
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                      ),
                       color: Color.fromARGB(255, 227, 96, 94),
                     ),
                     padding:

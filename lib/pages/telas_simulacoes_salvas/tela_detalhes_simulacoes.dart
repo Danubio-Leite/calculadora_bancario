@@ -71,6 +71,7 @@ class _SimulacoesDetalhesState extends State<SimulacoesDetalhes> {
                   Expanded(
                     flex: 1,
                     child: CustomCalcButton(
+                      backgroundColor: const Color.fromARGB(255, 187, 187, 187),
                       onPressed: () async {
                         Provider.of<TabelaProvider>(context, listen: false)
                             .removeTabela(widget.tabela);
@@ -81,7 +82,7 @@ class _SimulacoesDetalhesState extends State<SimulacoesDetalhes> {
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: CustomCalcButton(
                       onPressed: () async {
                         RenderRepaintBoundary boundary =

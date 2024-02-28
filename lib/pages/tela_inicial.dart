@@ -3,7 +3,10 @@ import 'package:calculadora_bancario/components/custom_appbar.dart';
 import 'package:calculadora_bancario/pages/telas_consorcio_financiamento/tela_consorcio_financiamento.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
 import '../components/custom_home_button.dart';
+import '../providers/simulacoes_salvas_provider.dart';
 import 'tela_cdc.dart';
 import 'tela_indices_offline.dart';
 import 'telas_simulacoes_salvas/tela_simulacoes_salvas.dart';
@@ -147,7 +150,52 @@ class TelaInicial extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const TelaSimulacoesSalvas()),
+                        builder: (context) => FutureBuilder(
+                          future: Future.delayed(
+                            const Duration(
+                                milliseconds: 1200), // Atraso de 2 segundos
+                            () => Provider.of<TabelaProvider>(context,
+                                    listen: false)
+                                .loadTabelas(),
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return const TelaSimulacoesSalvas();
+                            } else {
+                              return Scaffold(
+                                body: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Center(
+                                        child: LoadingAnimationWidget
+                                            .staggeredDotsWave(
+                                          color: const Color.fromARGB(
+                                              255, 0, 96, 164),
+                                          size: 60,
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          "Carregando Tabelas",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Color.fromARGB(255, 0, 96, 164),
+                                          ),
+                                        ), // O texto
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     );
                   },
                 ),
