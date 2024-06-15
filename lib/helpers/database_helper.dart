@@ -66,7 +66,6 @@ class DatabaseService {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-
     _database = await _initDb();
     return _database!;
   }
@@ -74,24 +73,31 @@ class DatabaseService {
   Future<Database> _initDb() async {
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'tabelas.db');
-
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
-    await db.execute(
-        'CREATE TABLE tabelas (id INTEGER PRIMARY KEY, label TEXT, imagem TEXT, categoria TEXT, data TEXT)');
+    await db.execute('''
+      CREATE TABLE tabelas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        label TEXT, 
+        imagem TEXT, 
+        categoria TEXT, 
+        data TEXT
+      )
+    ''');
   }
 
   Future<int> saveTabela(Tabela tabela) async {
     var dbClient = await database;
-    var result = await dbClient.insert('tabelas', tabela.toMap());
+    print('Calling saveTabela with: ${tabela.toMap(forInsert: true)}');
+    var result =
+        await dbClient.insert('tabelas', tabela.toMap(forInsert: true));
+    print('Table saved with id: $result');
     return result;
   }
 
-  Future<int> remove(
-    int id,
-  ) async {
+  Future<int> remove(int id) async {
     var dbClient = await database;
     int rowsDeleted =
         await dbClient.delete('tabelas', where: 'id = ?', whereArgs: [id]);

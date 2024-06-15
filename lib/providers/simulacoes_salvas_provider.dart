@@ -20,7 +20,7 @@ class TabelaProvider with ChangeNotifier {
 
   void removeTabela(Tabela tabela) async {
     var dbService = DatabaseService.instance;
-    await dbService.remove(tabela.id);
+    await dbService.remove(tabela.id!);
     _tabelas.remove(tabela);
     notifyListeners();
   }
