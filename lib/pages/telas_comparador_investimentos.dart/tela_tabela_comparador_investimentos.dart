@@ -222,11 +222,11 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                             id: randomId,
                           );
 
-                          print('Saving tabela: $tabela');
+                          // print('Saving tabela: $tabela');
 
                           var dbService = DatabaseService.instance;
                           int id = await dbService.saveTabela(tabela);
-                          print('Tabela saved with id: $id');
+                          // print('Tabela saved with id: $id');
                         }
                       },
                       texto: 'Salvar',

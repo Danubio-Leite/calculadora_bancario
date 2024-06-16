@@ -90,10 +90,10 @@ class DatabaseService {
 
   Future<int> saveTabela(Tabela tabela) async {
     var dbClient = await database;
-    print('Calling saveTabela with: ${tabela.toMap(forInsert: true)}');
+    // print('Calling saveTabela with: ${tabela.toMap(forInsert: true)}');
     var result =
         await dbClient.insert('tabelas', tabela.toMap(forInsert: true));
-    print('Table saved with id: $result');
+    // print('Table saved with id: $result');
     return result;
   }
 

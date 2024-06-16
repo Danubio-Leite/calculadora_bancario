@@ -208,8 +208,8 @@ class TelaTabelaPriceSac extends StatelessWidget {
                               label: label!,
                               imagem: base64Image,
                               id: radomId);
-                          Provider.of<TabelaProvider>(context, listen: false)
-                              .addTabela(tabela);
+                          // Provider.of<TabelaProvider>(context, listen: false)
+                          //     .addTabela(tabela);
 
                           var dbService = DatabaseService.instance;
                           int id = await dbService.saveTabela(tabela);
