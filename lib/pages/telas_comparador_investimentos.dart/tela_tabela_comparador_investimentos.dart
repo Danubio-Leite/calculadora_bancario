@@ -4,13 +4,11 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../components/custom_calc_button.dart';
 import 'package:path_provider/path_provider.dart';
-
+import '../../components/custom_calc_button.dart';
 import '../../components/dialog_salvar_tabela.dart';
 import '../../helpers/database_helper.dart';
 import '../../models/tabelas_salvas_model.dart';
@@ -196,12 +194,6 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                           builder: (BuildContext context) {
                             TextEditingController controller =
                                 TextEditingController();
-                            //FocusNode com problema, provavelmente por conta do stateless
-                            // FocusNode focusNode = FocusNode();
-                            // WidgetsBinding.instance!.addPostFrameCallback((_) {
-                            //   FocusScope.of(context).requestFocus(focusNode);
-                            // });
-
                             return DialogSalvarSimulacao(
                               controller: controller,
                               label: label ?? DateTime.now().toString(),
@@ -209,7 +201,7 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                           },
                         );
 
-                        if (label != null && label!.isNotEmpty) {
+                        if (label != null && label.isNotEmpty) {
                           RenderRepaintBoundary boundary =
                               _globalKey.currentContext!.findRenderObject()
                                   as RenderRepaintBoundary;
@@ -217,22 +209,24 @@ class TelaTabelaComparadorInvestimentos extends StatelessWidget {
                           ByteData? byteData = await image.toByteData(
                               format: ui.ImageByteFormat.png);
                           Uint8List pngBytes = byteData!.buffer.asUint8List();
-                          int radomId = DateTime.now().millisecondsSinceEpoch;
+                          int randomId = DateTime.now().millisecondsSinceEpoch;
 
                           // Converte os bytes da imagem para uma string em base64
                           String base64Image = base64Encode(pngBytes);
 
                           var tabela = Tabela(
-                              data: DateTime.now().toString(),
-                              categoria: 'Investimentos',
-                              label: label!,
-                              imagem: base64Image,
-                              id: radomId);
-                          Provider.of<TabelaProvider>(context, listen: false)
-                              .addTabela(tabela);
+                            data: DateTime.now().toString(),
+                            categoria: 'Investimentos',
+                            label: label,
+                            imagem: base64Image,
+                            id: randomId,
+                          );
+
+                          // print('Saving tabela: $tabela');
 
                           var dbService = DatabaseService.instance;
                           int id = await dbService.saveTabela(tabela);
+                          // print('Tabela saved with id: $id');
                         }
                       },
                       texto: 'Salvar',

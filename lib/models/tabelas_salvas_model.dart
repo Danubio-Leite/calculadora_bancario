@@ -1,28 +1,29 @@
-import 'dart:typed_data';
-
 class Tabela {
-  final int id;
+  final int? id;
   final String label;
   final String imagem;
   final String categoria;
   final String data;
 
   Tabela({
+    this.id,
     required this.label,
     required this.imagem,
-    required this.id,
     required this.categoria,
     required this.data,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
+  Map<String, dynamic> toMap({bool forInsert = false}) {
+    var map = <String, dynamic>{
       'label': label,
       'imagem': imagem,
       'categoria': categoria,
       'data': data,
     };
+    if (!forInsert && id != null) {
+      map['id'] = id;
+    }
+    return map;
   }
 
   // Criar um objeto Tabela a partir do mapa
@@ -30,7 +31,7 @@ class Tabela {
     return Tabela(
       label: map['label'] ?? '',
       imagem: map['imagem'] ?? '',
-      id: map['id'] ?? DateTime.now().millisecondsSinceEpoch,
+      id: map['id'],
       categoria: map['categoria'] ?? '',
       data: map['data'] ?? '',
     );

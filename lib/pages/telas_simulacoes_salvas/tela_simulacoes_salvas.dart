@@ -56,13 +56,62 @@ class _TelaSimulacoesSalvasState extends State<TelaSimulacoesSalvas> {
         ),
       ),
       body: tabelasSalvas.isEmpty
-          ? const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Nenhuma simulação salva'),
-                ],
-              ),
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        MinhasSimulacoesButton(
+                          label: 'Todas',
+                          categoriaSelecionada: _categoriaSelecionada,
+                          onPressed: () {
+                            setState(() {
+                              _categoriaSelecionada = 'Todas';
+                            });
+                          },
+                        ),
+                        MinhasSimulacoesButton(
+                          label: 'Investimentos',
+                          categoriaSelecionada: _categoriaSelecionada,
+                          onPressed: () {
+                            setState(() {
+                              _categoriaSelecionada = 'Investimentos';
+                            });
+                          },
+                        ),
+                        MinhasSimulacoesButton(
+                          label: 'Sac | Price',
+                          categoriaSelecionada: _categoriaSelecionada,
+                          onPressed: () {
+                            setState(() {
+                              _categoriaSelecionada = 'Sac | Price';
+                            });
+                          },
+                        ),
+                        MinhasSimulacoesButton(
+                          label: 'Financiamento | Consórcio',
+                          categoriaSelecionada: _categoriaSelecionada,
+                          onPressed: () {
+                            setState(() {
+                              _categoriaSelecionada =
+                                  'Financiamento | Consórcio';
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Expanded(
+                  child: Center(
+                    child: Text('Nenhuma simulação salva'),
+                  ),
+                ),
+              ],
             )
           : Column(
               children: [
