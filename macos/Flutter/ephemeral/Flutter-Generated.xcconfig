@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=/Users/danubio/FlutterDev/flutter
-FLUTTER_APPLICATION_PATH=/Users/danubio/FlutterDev/apps/calculadora_bancario
+FLUTTER_APPLICATION_PATH=/Volumes/Externo 256/Flutter Dev/calculadora_bancario
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.4.0

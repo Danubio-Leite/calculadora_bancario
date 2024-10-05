@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../components/custom_home_button.dart';
 import '../providers/simulacoes_salvas_provider.dart';
 import 'tela_cdc.dart';
+import 'tela_gerador_oferta.dart';
 import 'tela_indices_offline.dart';
 import 'telas_simulacoes_salvas/tela_simulacoes_salvas.dart';
 import 'telas_consorcio_consorcio/tela_consorcio_consorcio.dart';
@@ -40,6 +41,17 @@ class TelaInicial extends StatelessWidget {
               mainAxisSpacing: 15,
               crossAxisCount: 2,
               children: [
+                CustomHomeButton(
+                  imagePath: 'assets/images/icons/businessman.png',
+                  buttonText: 'Gerador de\n Ofertas',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TelaGeradorOfertas()),
+                    );
+                  },
+                ),
                 CustomHomeButton(
                   imagePath: 'assets/images/icons/money.png',
                   buttonText: 'Parcela\n CDC',
@@ -84,11 +96,12 @@ class TelaInicial extends StatelessWidget {
                     );
                   },
                 ),
-                CustomHomeButton(
-                  imagePath: 'assets/images/icons/car.png',
-                  buttonText: 'Consórcio x\n Consórcio',
-                  onPressed: null,
-                ),
+
+                // CustomHomeButton(
+                //   imagePath: 'assets/images/icons/car.png',
+                //   buttonText: 'Consórcio x\n Consórcio',
+                //   onPressed: null,
+                // ),
                 CustomHomeButton(
                   imagePath: 'assets/images/icons/accounting.png',
                   buttonText: 'Indicadores\n Econômicos',
