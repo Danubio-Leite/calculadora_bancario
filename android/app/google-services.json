@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "74344701501",
+    "project_id": "calculadora-do-bancario",
+    "storage_bucket": "calculadora-do-bancario.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74344701501:android:7868268e301d89431a5454",
+        "android_client_info": {
+          "package_name": "br.com.danubioleite.calculadora_bancario"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh4C_n5ucm5ifFh398HN4v3L7iLUJIphI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
